@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Portfolio front page</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            width: auto;
+            height: auto;
+        }
+        .max-width{
+            max-width: 1300px;
+            padding: 0 80px;
+            margin: auto;
+        }
+        /*--navbar style--*/
+        .navbar{
+           position: fixed;
+           width: 100%;
+           padding: 30px 0;
+           /* background: yellowgreen; changes */
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+        }
+        .navbar .max-width{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+        }
+        .navbar .logo a{
+            color: white;
+            font-size: 60px;
+            font-weight: 600;
+            margin-left: -500px;
+        }
+        .navbar .logo a span{
+            color: red;
+        }
+        .navbar .menu li{
+            list-style: none;
+            display: inline-block;
+
+        }
+        .navbar .menu li a{
+            color: white;
+            font-size: 25px;
+            font-weight: 500;
+            margin-left: 25px;
+            transition: color 0.3s ease;
+        }
+        .navbar .menu li a:hover{
+            color: yellowgreen;
+        }
+        /* home section styling */
+        .home{
+            display: flex;
+            background: url(natural_scenary.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+            min-height: 1500px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .home .max-width{
+            margin: auto o auto 40px;
+        }
+        .home .home-content .text-1{
+            font-size: 30px;
+        }
+        .home .home-content .text-2{
+            font-size: 80px;
+            font-weight: 600;
+            margin-left: -3px;
+        }
+        .home .home-content .text-3{
+            font-size: 40px;
+            margin: 5px 0;
+        }
+        .home .home-content .text-3 span{
+            color: red;
+            font-weight: 700;
+        }
+        .home .max-width .text-4 a{
+            font-size: 18pt;
+            color: white;
+            text-decoration: none;
+            margin: 50px, 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+      <div class="max-width">
+        <div class="logo"><a href="index.html">Portfo<span>lio.</span></a></div>
+        <ul class="menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Resume.html">About me</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Skills</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    <!--Home section start--> <!-- Type text and ctrl+K+C comment shortcut-->
+    <section class="home" id="home"> <!--section.home#home shortcut for this line-->
+        <div class="max-width">
+            <div class="home-content">
+                <div class="text-1">Hello Everyone, I'm</div>
+                <div class="text-2">Ishwar Neupane</div>
+                <div class="text-3">I am a <span>civil engineer</span> and a programming enthusiast.</div>
+            </div>
+            <div class="text-4"><a href="Resume.html">Know more about me...</a></div>   
+        </div>     
+    </section>
+</body>
+</html>
