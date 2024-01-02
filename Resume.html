@@ -5,233 +5,349 @@
     <title>Ishwar's Resume</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-     body {
-    margin: 0;
-    padding: 0;
-    background: #af56b6e8;
-}
+      body {
+            margin: 0;
+            padding: 0;
+            background: #af56b6e8;
+        }
 
-.cv,
-.cv-pic-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
+        .cv,
+        .cv-pic-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
 
-.cv-paper {
-    background: #f0eeee;
-    max-width: max-content;
-    margin: 2em;
-    display: flex;
-    box-shadow: 7px 7px 25px 2px rgba(0, 0, 0, 0.49);
-}
+        .cv-paper {
+            background: #f0eeee;
+            height: max-content;
+            width: max-content;
+            margin: 2em;
+            display: flex;
+            -webkit-box-shadow: 7px 7px 25px 2px rgba(0, 0, 0, 0.49);
+            box-shadow: 7px 7px 25px 2px rgba(0, 0, 0, 0.49);
+        }
 
-.cv-info {
-    width: 100%;
-    max-width: max-content;
-    background: #cccbcb;
-    padding-bottom: 1em;
-}
+        .cv-info {
+            width: 100%;
+            height: max-content;
+            background: #cccbcb;
+            padding-bottom: 1em;
+        }
 
-.cv-pic-container {
-    padding-top: 2em;
-}
+        .cv-pic-container {
+            padding-top: 2em;
+        }
 
-.cv-pic {
-    height: 8em;
-    width: auto;
-    border-radius: 50%;
-    border: 3px dashed grey;
-}
+        .cv-pic {
+            height: 8em;
+            width: auto;
+            border-radius: 50%;
+            border: 3px dashed grey;
+        }
 
-.cv-address-container {
-    margin: 1.5em;
-}
+        .cv-address-container {
+            margin: 1.5em;
+        }
 
-.address-font,
-.cv-skill-heading {
-    font-family: "poppins";
-    font-weight: 400;
-    font-size: 10pt;
-    margin-top: 1.6em;
-}
+        .address-font,
+        .cv-skill-heading {
+            font-family: "poppins";
+            font-weight: 400;
+            font-size: 10pt;
+            margin-top: 1.6em;
+        }
 
-.address-bold {
-    font-weight: 600;
-}
+        .address-bold {
+            font-weight: 600;
+        }
 
-.cv-address-container div {
-    display: flex;
-    justify-content: space-between;
-}
+        .cv-address-container div {
+            display: flex;
+            justify-content: space-between;
+        }
 
-.address-1 {
-    margin-top: 0em;
-}
+        .address-1 {
+            margin-top: 0em;
+        }
 
-.cv-address-container div svg {
-    height: 1.5em;
-    width: 1.5em;
-    fill: #8d0e32;
-}
+        .cv-address-container div svg {
+            height: 1.5em;
+            width: 1.5em;
+            fill: #8d0e32;
+        }
 
-.cv-address-container div:nth-child(5) p,
-.cv-address-container div:nth-child(6) p,
-.cv-address-container div:nth-child(7) p,
-.cv-address-container div:nth-child(8) p,
-.cv-address-container div:nth-child(9) p {
-    margin: 0;
-}
+        .cv-address-container div:nth-child(5) p,
+        .cv-address-container div:nth-child(6) p,
+        .cv-address-container div:nth-child(7) p,
+        .cv-address-container div:nth-child(8) p,
+        .cv-address-container div:nth-child(9) p {
+            margin: 0;
+        }
 
-.cv-address-container div p a,
-.cv-address-container div span a {
-    text-decoration: none;
-    color: #670722;
-}
+        .cv-address-container div p a,
+        .cv-address-container div span a {
+            text-decoration: none;
+            color: #670722;
+        }
 
-.cv-address-container div p a:hover,
-.cv-address-container div span a:hover {
-    text-decoration: none;
-    color: #071967;
-}
+        .cv-address-container div p a:hover,
+        .cv-address-container div span a:hover {
+            text-decoration: none;
+            color: #071967;
+        }
 
-.cv-address-container div:nth-child(5),
-.cv-address-container div:nth-child(6),
-.cv-address-container div:nth-child(7),
-.cv-address-container div:nth-child(8),
-.cv-address-container div:nth-child(9) {
-    margin-top: 0.7em;
-}
+        .cv-address-container div:nth-child(5),
+        .cv-address-container div:nth-child(6),
+        .cv-address-container div:nth-child(7),
+        .cv-address-container div:nth-child(8),
+        .cv-address-container div:nth-child(9) {
+            margin-top: 0.7em;
+        }
 
-.language {
-    font-family: 'Poppins';
-    font-size: 10pt;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: black;
-}
+        .language {
+            font-family: 'Poppins';
+            font-size: 10pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: black;
+        }
 
-.cv-skill-heading {
-    font-weight: 600;
-    text-transform: uppercase;
-    margin-top: 2em;
-    margin-bottom: 2em;
-}
+        .cv-skill-heading {
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 2em;
+            margin-bottom: 2em;
+        }
 
-.cv-skill-heading p ref {
-    font-size: 8pt;
-    color: black;
-    font-family: "poppins";
-    text-align: left;
-}
+        .cv-skill-heading p ref {
+            font-size: 8pt;
+            color: black;
+            font-family: "poppins";
+            text-align: left;
+        }
 
-.cv-skill-bar {
-    background: #fff;
-    height: 0.3em;
-    width: 100%;
-    border: 1.5px solid grey;
-    border-radius: 1em;
-}
+        .cv-skill-bar {
+            background: #fff;
+            height: 0.3em;
+            width: 100%;
+            border: 1.5px solid grey;
+            border-radius: 1em;
+        }
 
-.cv-skill-bar-1 {
-    width: 90%;
-}
+        .cv-skill-bar-1 {
+            width: 90%;
+        }
 
-.cv-skill-bar-1,
-.cv-skill-bar-2,
-.cv-skill-bar-3,
-.cv-skill-bar-4,
-.cv-skill-bar-5 {
-    background: #980dc6;
-    height: 100%;
-    border-radius: 1em;
-}
+        .cv-skill-bar-1,
+        .cv-skill-bar-2,
+        .cv-skill-bar-3,
+        .cv-skill-bar-4,
+        .cv-skill-bar-5 {
+            background: #980dc6;
+            height: 100%;
+            border-radius: 1em;
+        }
 
-.cv-skill-bar-2 {
-    width: 60%;
-}
+        .cv-skill-bar-2 {
+            width: 60%;
+        }
 
-.cv-skill-bar-3 {
-    width: 70%;
-}
+        .cv-skill-bar-3 {
+            width: 70%;
+        }
 
-.cv-skill-bar-4 {
-    width: 65%;
-}
+        .cv-skill-bar-4 {
+            width: 65%;
+        }
 
-.cv-skill-bar-5 {
-    width: 85%;
-}
+        .cv-skill-bar-5 {
+            width: 85%;
+        }
 
-.cv-address-container div:nth-child(11),
-.cv-address-container div:nth-child(12),
-.cv-address-container div:nth-child(13),
-.cv-address-container div:nth-child(14),
-.cv-address-container div:nth-child(15),
-.cv-address-container div:nth-child(17),
-.cv-address-container div:nth-child(18) {
-    display: block;
-}
+        .cv-address-container div:nth-child(11),
+        .cv-address-container div:nth-child(12),
+        .cv-address-container div:nth-child(13),
+        .cv-address-container div:nth-child(14),
+        .cv-address-container div:nth-child(15),
+        .cv-address-container div:nth-child(17),
+        .cv-address-container div:nth-child(18) {
+            display: block;
+        }
 
-.cv-address-container div:nth-child(17) p,
-.cv-address-container div:nth-child(18) p {
-    margin: 0;
-    font-family: "poppins";
-    font-size: 10pt;
-}
+        .cv-address-container div:nth-child(17) p,
+        .cv-address-container div:nth-child(18) p {
+            margin: 0;
+            font-family: "poppins";
+            font-size: 10pt;
+        }
 
-.cv-address-container div:nth-child(17) {
-    margin-bottom: 1em;
-}
+        .cv-address-container div:nth-child(17) {
+            margin-bottom: 1em;
+        }
 
-.cv-head {
-    background: #dbdada;
-    height: 60px;
-    width: 50em;
-    padding: 1.5em;
-}
+        .cv-head {
+            background: #dbdada;
+            height: 60px;
+            width: 50em;
+            padding: 1.5em;
+        }
 
-.cv-head h1:first-child {
-    color: #6e108d;
-}
+        .cv-head h1:first-child {
+            color: #6e108d;
+        }
 
-.cv-head h1:nth-child(2) {
-    line-height: 0.8em;
-}
+        .cv-head h1:nth-child(2) {
+            line-height: 0.8em;
+        }
 
-.cv-head h1:first-child,
-.cv-head h1:nth-child(2) {
-    margin: 0;
-    font-family: "poppins";
-}
+        .cv-head h1:first-child,
+        .cv-head h1:nth-child(2) {
+            margin: 0;
+            font-family: "poppins";
+            font-size: 30pt;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
 
-.cv-head h1:nth-child(2) {
-    font-weight: 500;
-}
+        .cv-head ul li,
+        .cv-description ul li {
+            list-style: square;
+        }
 
-.head-bold {
-    font-weight: 600;
-}
+        .cv-head ul,
+        .cv-description ul {
+            margin-bottom: 0;
+        }
 
-.cv-content {
-    padding: 2em;
-}
+        .cv-head ul li span {
+            top: 12.4em;
+        }
 
-h2,
-h3 {
-    margin-bottom: 0.5em;
-}
+        .cv-description ul:first-child li span {
+            top: 9.8em;
+        }
 
-h3 {
-    font-size: 1.5em;
-}
+        .cv-description ul:nth-child(3) li span {
+            top: 14.5em;
+        }
 
-hr {
-    border-top: 1px solid #ccc;
-    margin: 1em 0;
-}
+        .cv-description ul:nth-child(7) li span {
+            top: 26em;
+        }
+
+        .cv-head ul li span,
+        .cv-description ul li span {
+            position: absolute;
+        }
+
+        .cv-head ul li::marker,
+        .cv-description ul li::marker {
+            color: #6e108d;
+            font-size: 25pt;
+        }
+
+        .cv-description {
+            background: transparent;
+            height: 20em;
+            width: 100%;
+            padding: 2em;
+        }
+
+        .cv-description ul {
+            margin-top: 0;
+        }
+
+        .cv-description ul li span {
+            color: #6e108d;
+            font-weight: 600;
+            font-size: 15pt;
+            text-transform: uppercase;
+        }
+
+        .cv-description p {
+            width: 45em;
+            text-align: justify;
+            margin: 0;
+            margin-left: 3.5em;
+            font-family: "poppins";
+            font-size: 10pt;
+        }
+
+        .cv-description div:nth-child(4) p,
+        .cv-description div:nth-child(6) p {
+            font-weight: 600;
+        }
+
+        .cv-description div:nth-child(4) h3,
+        .cv-description div:nth-child(6) h3,
+        .cv-description div:nth-child(8) h3,
+        .cv-description div:nth-child(9) h3,
+        .cv-description div:nth-child(10) h3 {
+            font-family: "poppins";
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 10pt;
+            margin: 0;
+            margin-left: 3.5em;
+        }
+
+        .cv-description div:nth-child(8) h4,
+        .cv-description div:nth-child(9) h4,
+        .cv-description div:nth-child(10) h4 {
+            font-family: "poppins";
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 10pt;
+            margin: 0;
+            margin-left: 3.5em;
+        }
+
+        .cv-description div:nth-child(4) p:nth-child(3),
+        .cv-description div:nth-child(6) p:nth-child(3),
+        .cv-description div:nth-child(8) p:nth-child(3),
+        .cv-description div:nth-child(9) p:nth-child(3),
+        .cv-description div:nth-child(10) p:nth-child(3) {
+            font-weight: 400;
+            font-size: 10pt;
+            margin-left: 3.8em;
+        }
+
+        .cv-description p:nth-child(2),
+        .cv-description div:nth-child(8) p:nth-child(4),
+        .cv-description div:nth-child(9) p:nth-child(4),
+        .cv-description div:nth-child(10) p:nth-child(4) {
+            font-weight: 400;
+        }
+
+        .cv-description div:nth-child(8) p:nth-child(4),
+        .cv-description div:nth-child(9) p:nth-child(4) {
+            margin-bottom: .5em;
+        }
+
+        .cv img:nth-child(2) {
+            height: 30em;
+            width: auto;
+            margin-left: -14em;
+            margin-top: 30em;
+        }
+
+        button {
+            margin: .1em 40em;
+            padding: .4em;
+            background-color: yellowgreen;
+            text-align: center;
+            border-radius: 1em;
+            font-size: 20pt;
+            font-weight: 600;
+            width: 6em;            
+        }
+        button:hover {
+            background-color: rgb(255, 0, 51);
+            cursor: pointer;
+        }
     </style>
-</head>
+    </head>
 
 <body>
     <div class="cv">
