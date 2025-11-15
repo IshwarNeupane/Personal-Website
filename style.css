@@ -1,0 +1,263 @@
+:root {
+    --nepal-red: #bf0a30;
+    --nepal-blue: #003893;
+    --bg: #fbfbfd;
+    --muted: #6b6b6b;
+    --card-bg: rgba(255, 255, 255, 0.92);
+}
+
+:root.dark {
+    --bg: #07080a;
+    --card-bg: rgba(12, 12, 14, 0.86);
+    --muted: #9e9e9e;
+}
+
+/* global */
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    background: var(--bg);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color: #111
+}
+
+a {
+    color: var(--nepal-blue);
+    text-decoration: none
+}
+
+.container {
+    max-width: 1100px;
+    margin: 24px auto;
+    padding: 0 16px
+}
+
+/* header */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.18));
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06)
+}
+
+:root.dark .site-header {
+    background: linear-gradient(90deg, rgba(8, 9, 12, 0.85), rgba(8, 9, 12, 0.4));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04)
+}
+
+.brand {
+    display: flex;
+    gap: 12px;
+    align-items: center
+}
+
+.logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--nepal-blue), var(--nepal-red))
+}
+
+.brand-text .name {
+    font-weight: 800
+}
+
+.brand-text .sub {
+    font-size: 13px;
+    color: var(--muted)
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.nav-link {
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+    color: inherit
+}
+
+.nav-link.active {
+    background: linear-gradient(135deg, var(--nepal-red), var(--nepal-blue));
+    color: white
+}
+
+/* mobile toggle */
+.mobile-toggle {
+    display: none
+}
+
+@media (max-width:900px) {
+    .main-nav a:not(:first-child) {
+        display: none
+    }
+
+    .mobile-toggle {
+        display: inline-flex
+    }
+}
+
+/* cards & pages */
+.card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(8, 8, 15, 0.06);
+    margin-bottom: 18px
+}
+
+.page .lead {
+    color: var(--muted);
+    margin-bottom: 12px
+}
+
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px
+}
+
+@media (max-width:800px) {
+    .two-col {
+        grid-template-columns: 1fr
+    }
+}
+
+/* widgets */
+.widget {
+    position: fixed;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.10);
+    background: var(--card-bg);
+    z-index: 60
+}
+
+.weather {
+    right: 20px;
+    top: 90px;
+    width: 220px;
+    display: flex;
+    gap: 12px;
+    align-items: center
+}
+
+.weather-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--nepal-blue), var(--nepal-red));
+    color: white;
+    font-weight: 800
+}
+
+.weather .muted {
+    color: var(--muted);
+    font-size: 13px
+}
+
+.chat-placeholder {
+    right: 20px;
+    bottom: 110px
+}
+
+.bs-calendar {
+    right: 20px;
+    bottom: 20px;
+    background: var(--nepal-blue);
+    color: white;
+    padding: 10px 14px
+}
+
+.visitor-widget {
+    left: 20px;
+    bottom: 20px;
+    min-width: 200px
+}
+
+/* footer */
+.site-footer {
+    margin-top: 34px;
+    padding: 30px 0;
+    background: transparent;
+    text-align: center;
+    color: var(--muted)
+}
+
+.small {
+    font-size: 12px;
+    color: var(--muted)
+}
+
+/* map responsive corrections (widgets stacking with safe spacing) */
+@media (max-width:900px) {
+    .weather {
+        right: 12px;
+        top: 80px;
+        width: 180px
+    }
+
+    .chat-placeholder {
+        right: 12px;
+        bottom: 120px
+    }
+
+    .bs-calendar {
+        right: 12px;
+        bottom: 20px
+    }
+
+    .visitor-widget {
+        left: 12px;
+        bottom: 20px;
+        min-width: 160px
+    }
+}
+
+/* small UI */
+.btn {
+    border: none;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    font-weight: 700
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--nepal-blue), var(--nepal-red));
+    color: white;
+    font-weight: 800
+}
+
+.muted {
+    color: var(--muted)
+}
+
+.small {
+    font-size: 12px
+}
