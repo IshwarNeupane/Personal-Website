@@ -30,7 +30,7 @@ async function renderWeatherWidget() {
     if (!tempEl || !descEl || !locEl) return;
 
     if (!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY === '57d0913961b8dd3587935fb4252d809c') {
-        descEl.textContent = 'API key missing — set in assets/app.js';
+        descEl.textContent = 'API key missing — set in app.js';
         tempEl.textContent = '--°C';
         return;
     }
