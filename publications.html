@@ -18,7 +18,7 @@
     </div>
 
     <nav class="main-nav">
-      <a href="index.html">About</a>
+      <a href="index.html">About Me</a>
       <a href="publications.html" class="active">Research & Publications</a>
       <a href="certifications.html">Certifications</a>
       <a href="experience.html">Professional Experience</a>
@@ -30,13 +30,13 @@
   <main class="container page">
     <article class="card">
       <h1>Research & Publications</h1>
-      <p class="lead">List of research works, publications, and ongoing research interests.</p>
+      <p class="lead">List of research works, publications, and research interests.</p>
 
       <h2>Research Interests</h2>
       <ul>
         <li>Bridge engineering and pile foundations</li>
         <li>Concrete materials and admixture behavior</li>
-        <li>Soil-structure interaction</li>
+        <li>Structural Health Monitoring</li>
       </ul>
 
       <h2>Selected Publications</h2>
@@ -54,7 +54,11 @@
 
   <div id="weatherWidget" class="widget weather"></div>
   <div id="chatPlaceholder" class="widget chat-placeholder"><button id="chatBtn2" class="btn btn-primary">Chat</button></div>
-  <div id="bsCalendar" class="widget bs-calendar"><span id="bsDate">B.S. — loading...</span></div>
+  <div id="bsCalendar" class="widget bs-calendar" aria-live="polite">
+  <div id="bsDate">B.S. — loading...</div>
+  <div id="bsWeekday" class="small muted" aria-hidden="false">Loading weekday...</div>
+</div>
+
   <div id="visitorWidget" class="widget visitor-widget"><div>Total visitors: <span id="totalVisits">--</span></div><div>Top countries: <span id="top5">--</span></div></div>
 
   <footer class="site-footer">© <span id="footerYear"></span> Ishwar Neupane</footer>
@@ -62,3 +66,4 @@
 <script src="app.js"></script>
 </body>
 </html>
+
