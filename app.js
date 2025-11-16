@@ -121,58 +121,36 @@ function renderTop5(){
 }
 registerVisit();
 
-/* ---------- Bikram Sambat (B.S.) calendar using AD2BS (library) ---------- */
-function renderBS(){
-  try {
-    const now = new Date();
+function loadBSDate() {
+    const today = new Date();
 
-    // Ensure AD2BS exists
-    if (typeof AD2BS !== 'function') throw new Error('AD2BS not available');
+    // Convert AD → BS accurately
+    const bsDate = NepaliDateConverter.adToBs({
+        year: today.getFullYear(),
+        month: today.getMonth() + 1, // JS months start at 0
+        day: today.getDate()
+    });
 
-    // Call the library
-    const bs = AD2BS(now);
+    const monthNames = [
+        "Baishakh", "Jestha", "Ashadh", "Shrawan", "Bhadra", "Ashwin",
+        "Kartik", "Mangsir", "Poush", "Magh", "Falgun", "Chaitra"
+    ];
 
-    // Library may return properties with different names depending on version.
-    const year = bs.year || bs.bsYear || bs.bs_year || bs.ad_bs_year;
-    const month = bs.month || bs.bsMonth || bs.bs_month || bs.bs_month_no;
-    const day = bs.day || bs.date || bs.bs_date || bs.bsDay;
+    // Weekday
+    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const weekday = weekdays[today.getDay()];
 
-    // Defensive check
-    if (!year || !month || !day) throw new Error('BS library returned unexpected shape: ' + JSON.stringify(bs));
+    // Format BS date
+    const formatted = `${bsDate.year} ${monthNames[bsDate.month - 1]} ${bsDate.day}`;
 
-    const months = ['Baishakh','Jestha','Ashadh','Shrawan','Bhadra','Ashwin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
-    const bsMonthName = months[(Number(month) - 1 + 12) % 12] || ('Month ' + month);
-    const bsStr = `${year} ${bsMonthName} ${day}`;
-
-    // Weekday (English). getDay(): 0 = Sunday ... 6 = Saturday
-    const weekdayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    const weekday = weekdayNames[now.getDay()];
-
-    // Write to DOM
-    document.querySelectorAll('#bsDate').forEach(e => e.textContent = bsStr);
-    document.querySelectorAll('#bsWeekday').forEach(e => e.textContent = weekday);
-
-  } catch (e) {
-    console.error('BS conversion failed (library):', e);
-
-    // fallback (approximate) — keep the previous fallback but keep it explicit
-    const now = new Date();
-    const adYear = now.getFullYear(), m = now.getMonth()+1, d = now.getDate();
-    const bsYear = (m > 4 || (m === 4 && d >= 14)) ? adYear + 57 : adYear + 56;
-    const monthsApprox = ['Baishakh','Jestha','Ashadh','Shrawan','Bhadra','Ashwin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
-    const approx = new Date(now.getTime() + 17*24*60*60*1000);
-    const idx = (approx.getMonth() + 9) % 12;
-    const bsStr = `${bsYear} ${monthsApprox[idx]} ${approx.getDate()} (approx)`;
-
-    const weekdayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    const weekday = weekdayNames[now.getDay()];
-
-    document.querySelectorAll('#bsDate').forEach(e=>e.textContent = bsStr);
-    document.querySelectorAll('#bsWeekday').forEach(e=>e.textContent = weekday);
-  }
+    // Render it
+    document.getElementById("nepali-calendar").innerHTML = `
+        <strong>${formatted}</strong><br>
+        <span style="font-size:13px">${weekday}</span>
+    `;
 }
-renderBS();
 
+loadBSDate();
 
 /* ---------- Chat snippet helper ---------- */
 function installChatSnippet(snippet){
@@ -191,4 +169,5 @@ function installChatSnippet(snippet){
 
 /* ---------- Footer year ---------- */
 document.querySelectorAll('#footerYear').forEach(e=>e.textContent = (new Date()).getFullYear());
+
 
