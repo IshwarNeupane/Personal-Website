@@ -24,7 +24,10 @@ body {
     height: 100%;
     margin: 0;
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
-    background: var(--bg);
+    background:
+    linear-gradient(180deg, rgba(0,56,147,0.08), transparent 40%),
+    linear-gradient(180deg, transparent 60%, rgba(191,10,48,0.08)),
+    #fbfbfd;
     color: var(--text)
 }
 
@@ -286,3 +289,4 @@ body::before {
     font-size: 12px
 
 }
+
