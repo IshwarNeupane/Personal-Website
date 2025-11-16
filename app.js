@@ -125,13 +125,37 @@ registerVisit();
 function renderBS(){
   try {
     const now = new Date();
-    const bs = AD2BS(now); // provided by bikram-sambat-js
+
+    // Ensure AD2BS exists
+    if (typeof AD2BS !== 'function') throw new Error('AD2BS not available');
+
+    // Call the library
+    const bs = AD2BS(now);
+
+    // Library may return properties with different names depending on version.
+    const year = bs.year || bs.bsYear || bs.bs_year || bs.ad_bs_year;
+    const month = bs.month || bs.bsMonth || bs.bs_month || bs.bs_month_no;
+    const day = bs.day || bs.date || bs.bs_date || bs.bsDay;
+
+    // Defensive check
+    if (!year || !month || !day) throw new Error('BS library returned unexpected shape: ' + JSON.stringify(bs));
+
     const months = ['Baishakh','Jestha','Ashadh','Shrawan','Bhadra','Ashwin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
-    const bsStr = `${bs.year} ${months[bs.month - 1]} ${bs.day}`;
-    document.querySelectorAll('#bsDate').forEach(e=>e.textContent = bsStr);
-  } catch(e){
-    console.error('BS conversion error', e);
-    // fallback approximate:
+    const bsMonthName = months[(Number(month) - 1 + 12) % 12] || ('Month ' + month);
+    const bsStr = `${year} ${bsMonthName} ${day}`;
+
+    // Weekday (English). getDay(): 0 = Sunday ... 6 = Saturday
+    const weekdayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const weekday = weekdayNames[now.getDay()];
+
+    // Write to DOM
+    document.querySelectorAll('#bsDate').forEach(e => e.textContent = bsStr);
+    document.querySelectorAll('#bsWeekday').forEach(e => e.textContent = weekday);
+
+  } catch (e) {
+    console.error('BS conversion failed (library):', e);
+
+    // fallback (approximate) — keep the previous fallback but keep it explicit
     const now = new Date();
     const adYear = now.getFullYear(), m = now.getMonth()+1, d = now.getDate();
     const bsYear = (m > 4 || (m === 4 && d >= 14)) ? adYear + 57 : adYear + 56;
@@ -139,10 +163,16 @@ function renderBS(){
     const approx = new Date(now.getTime() + 17*24*60*60*1000);
     const idx = (approx.getMonth() + 9) % 12;
     const bsStr = `${bsYear} ${monthsApprox[idx]} ${approx.getDate()} (approx)`;
+
+    const weekdayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const weekday = weekdayNames[now.getDay()];
+
     document.querySelectorAll('#bsDate').forEach(e=>e.textContent = bsStr);
+    document.querySelectorAll('#bsWeekday').forEach(e=>e.textContent = weekday);
   }
 }
 renderBS();
+
 
 /* ---------- Chat snippet helper ---------- */
 function installChatSnippet(snippet){
@@ -161,3 +191,4 @@ function installChatSnippet(snippet){
 
 /* ---------- Footer year ---------- */
 document.querySelectorAll('#footerYear').forEach(e=>e.textContent = (new Date()).getFullYear());
+
