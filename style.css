@@ -89,3 +89,33 @@ a{color:var(--nepal-blue)}
     margin-left: auto;
     margin-right: auto;
 }
+
+/* --- FOOTER NEPALI FLAG COLORS --- */
+.nepal-footer {
+    background: linear-gradient(135deg, #ce1126 40%, #003893 100%);
+    padding: 40px 20px;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+/* --- FOOTER LOGO SIZE --- */
+/* 3–4 inches ≈ 300px on most displays */
+.footer-logo {
+    width: 300px;
+    height: auto;     /* keep aspect ratio */
+    margin-top: 15px;
+    animation: gentleFloat 4s ease-in-out infinite;
+}
+
+/* --- DARK/LIGHT MODE LOGOS --- */
+.footer-logo-dark { display: none; }
+.dark-mode .footer-logo-light { display: none; }
+.dark-mode .footer-logo-dark { display: block; }
+
+/* --- ANIMATION --- */
+@keyframes gentleFloat {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
