@@ -124,45 +124,15 @@ function renderTop5() {
 }
 registerVisit();
 
-/* ---------- Bikram Sambat (B.S.) Calendar: use sudhanparajuli API for exact conversion ---------- */
-async function renderBS() {
-    try {
-        const now = new Date();
-        const y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
-        const url = `https://sudhanparajuli.com.np/api/ad-to-bs/${y}/${m}/${d}`;
-        const r = await fetch(url);
-        if (!r.ok) throw new Error('BS API fail');
-        const j = await r.json();
-        // API returns { year:2079, month:10, date:17, ... } or similar — handle both shapes
-        let bsStr = '';
-        if (j && (j.year || j.bs_year)) {
-            const yyyy = j.year || j.bs_year || j.bsYear;
-            const mm = j.month || j.bs_month || j.bsMonth;
-            const dd = j.date || j.day || j.bs_day;
-            const months = ['Baishakh', 'Jestha', 'Ashadh', 'Shrawan', 'Bhadra', 'Ashwin', 'Kartik', 'Mangsir', 'Poush', 'Magh', 'Falgun', 'Chaitra'];
-            const mname = months[(mm - 1 + 12) % 12] || '';
-            bsStr = `${yyyy} ${mname} ${dd}`;
-        } else if (j && j.bsDateString) {
-            bsStr = j.bsDateString;
-        } else {
-            bsStr = `${y + 57} (approx)`; // fallback
-        }
-        document.querySelectorAll('#bsDate').forEach(e => e.textContent = bsStr);
-    } catch (e) {
-        console.warn('BS render error', e);
-        // fallback approx (previous approach)
-        const now = new Date();
-        const adYear = now.getFullYear(), month = now.getMonth() + 1, day = now.getDate();
-        const bsYear = (month > 4 || (month === 4 && day >= 14)) ? adYear + 57 : adYear + 56;
-        const monthsBS = ['Baishakh', 'Jestha', 'Ashadh', 'Shrawan', 'Bhadra', 'Ashwin', 'Kartik', 'Mangsir', 'Poush', 'Magh', 'Falgun', 'Chaitra'];
-        const approx = new Date(now.getTime() + 17 * 24 * 60 * 60 * 1000);
-        const idx = (approx.getMonth() + 9) % 12;
-        const bsStr = `${bsYear} ${monthsBS[idx]} ${approx.getDate()}`;
-        document.querySelectorAll('#bsDate').forEach(e => e.textContent = bsStr);
-    }
+/* ---------- Bikram Sambat (B.S.) Calendar:--------- */
+function renderBS() {
+  const now = new Date();
+  const bs = AD2BS(now);
+  const months = ['Baishakh','Jestha','Ashadh','Shrawan','Bhadra','Ashwin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
+  const bsStr = `${bs.year} ${months[bs.month - 1]} ${bs.day}`;
+  document.querySelectorAll('#bsDate').forEach(e => e.textContent = bsStr);
 }
 renderBS();
-
 /* ---------- Chat snippet helper ---------- */
 function installChatSnippet(snippet) {
     try {
@@ -180,3 +150,4 @@ function installChatSnippet(snippet) {
 
 /* ---------- footer year fill ---------- */
 document.querySelectorAll('#footerYear').forEach(e => e.textContent = (new Date()).getFullYear());
+
