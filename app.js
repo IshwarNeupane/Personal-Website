@@ -124,33 +124,30 @@ registerVisit();
 function loadBSDate() {
     const today = new Date();
 
-    // Convert AD → BS accurately
-    const bsDate = NepaliDateConverter.adToBs({
-        year: today.getFullYear(),
-        month: today.getMonth() + 1, // JS months start at 0
-        day: today.getDate()
-    });
+    // Convert AD → BS using correct function call
+    const bs = NepaliDateConverter.adToBs(
+        today.getFullYear(),
+        today.getMonth() + 1,
+        today.getDate()
+    );
 
     const monthNames = [
         "Baishakh", "Jestha", "Ashadh", "Shrawan", "Bhadra", "Ashwin",
         "Kartik", "Mangsir", "Poush", "Magh", "Falgun", "Chaitra"
     ];
 
-    // Weekday
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const weekday = weekdays[today.getDay()];
 
-    // Format BS date
-    const formatted = `${bsDate.year} ${monthNames[bsDate.month - 1]} ${bsDate.day}`;
+    // Write into correct HTML ID elements
+    const dateEl = document.getElementById("bsDate");
+    const weekEl = document.getElementById("bsWeekday");
 
-    // Render it
-    document.getElementById("nepali-calendar").innerHTML = `
-        <strong>${formatted}</strong><br>
-        <span style="font-size:13px">${weekday}</span>
-    `;
+    if (dateEl) dateEl.innerHTML = `${bs.year} ${monthNames[bs.month - 1]} ${bs.day}`;
+    if (weekEl) weekEl.textContent = weekday;
 }
-
 loadBSDate();
+
 
 /* ---------- Chat snippet helper ---------- */
 function installChatSnippet(snippet){
@@ -169,5 +166,6 @@ function installChatSnippet(snippet){
 
 /* ---------- Footer year ---------- */
 document.querySelectorAll('#footerYear').forEach(e=>e.textContent = (new Date()).getFullYear());
+
 
 
