@@ -1,76 +1,49 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Contact — Ishwar Neupane</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/bikram-sambat-js@2.0.0/dist/bs.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — Ishwar Neupane</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/bikram-sambat-js@2.0.0/dist/bs.min.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <header class="site-header">
-        <div class="brand">
-            <div class="logo">
-                <img src="profile.jpg" alt="Ishwar Neupane">
-            </div>
-            <div class="brand-text">
-                <div class="name">Ishwar Neupane</div>
-                <div class="sub">Contact</div>
-            </div>
-        </div>
-        <nav class="main-nav">
-            <a href="index.html" class="nav-link">About</a>
-            <a href="publications.html" class="nav-link">Research & Publications</a>
-            <a href="certifications.html" class="nav-link">Certifications</a>
-            <a href="experience.html" class="nav-link">Professional Experience</a>
-            <a href="contact.html" class="nav-link active">Contact</a>
-            <button id="themeToggle5" class="btn btn-ghost">Dark</button>
-            <button class="mobile-toggle" id="mobileToggle5" aria-label="Open menu">☰</button>
-        </nav>
-    </header>
+  <header class="site-header">
+    <div class="brand"><div class="logo"><img src="profile.jpg" alt="Ishwar Neupane"></div><div class="brand-text"><div class="name">Ishwar Neupane</div><div class="sub">Contact</div></div></div>
 
-    <main class="page container">
-        <article class="card">
-            <h1>Contact</h1>
-            <p class="lead">Feel free to reach out via email or phone. Links below open your mail client / LinkedIn.</p>
+    <nav class="main-nav">
+      <a href="index.html">About</a>
+      <a href="publications.html">Research & Publications</a>
+      <a href="certifications.html">Certifications</a>
+      <a href="experience.html">Professional Experience</a>
+      <a href="contact.html" class="active">Contact</a>
+      <button id="themeToggle" class="btn" title="Toggle dark mode">🌙</button>
+    </nav>
+  </header>
 
-            <ul class="contact-list">
-                <li><strong>Email:</strong> <a href="mailto:ishwar.neupane@gmail.com">ishwar.neupane@gmail.com</a></li>
-                <li><strong>Alternate Email:</strong> <a
-                        href="mailto:ishwar.neupane@outlook.com">ishwar.neupane@outlook.com</a></li>
-                <li><strong>Phone:</strong> +977-9841450227</li>
-                <li><strong>Address:</strong> Inaruwa 04, Sunsari District, Koshi Province, Nepal</li>
-                <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/">Profile (paste your URL)</a></li>
-            </ul>
-        </article>
-    </main>
+  <main class="container page">
+    <article class="card">
+      <h1>Contact</h1>
+      <p class="lead">Reach out via email or phone. Links open your mail client.</p>
 
-    <div id="weatherWidget" class="widget weather"></div>
-    <div id="chatPlaceholder" class="widget chat-placeholder"></div>
-    <div id="bsCalendar" class="widget bs-calendar"></div>
-    <div id="visitorWidget" class="widget visitor-widget"></div>
+      <ul class="contact-list">
+        <li><strong>Email:</strong> <a href="mailto:ishwar.neupane@gmail.com">ishwar.neupane@gmail.com</a></li>
+        <li><strong>Alternate Email:</strong> <a href="mailto:ishwar.neupane@outlook.com">ishwar.neupane@outlook.com</a></li>
+        <li><strong>Phone:</strong> +977-9841450227</li>
+        <li><strong>Address:</strong> Inaruwa 04, Sunsari District, Koshi Province, Nepal</li>
+        <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/">Your profile link</a></li>
+      </ul>
+    </article>
+  </main>
 
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <div>© <span id="footerYear5"></span> Ishwar Neupane</div>
-        </div>
-    </footer>
+  <div id="weatherWidget" class="widget weather"></div>
+  <div id="chatPlaceholder" class="widget chat-placeholder"><button class="btn btn-primary">Chat</button></div>
+  <div id="bsCalendar" class="widget bs-calendar"><span id="bsDate">B.S. — loading...</span></div>
+  <div id="visitorWidget" class="widget visitor-widget"><div>Total visitors: <span id="totalVisits">--</span></div><div>Top countries: <span id="top5">--</span></div></div>
 
-    <script src="app.js"></script>
-    <div id="weatherWidget" class="widget weather"></div>
-<div id="bsCalendar" class="widget bs-calendar"><span id="bsDate"></span></div>
-<div id="visitorWidget" class="widget visitor-widget">
-  Total visitors: <span id="totalVisits">--</span><br>
-  Top countries: <span id="top5">--</span>
-</div>
-<div id="chatPlaceholder" class="widget chat-placeholder">Chat</div>
+  <footer class="site-footer">© <span id="footerYear"></span> Ishwar Neupane</footer>
 
 <script src="app.js"></script>
-
 </body>
-
-
 </html>
-

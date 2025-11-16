@@ -1,23 +1,20 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Ishwar Neupane — About</title>
-  <link rel="stylesheet" href="style.css">
+
+  <!-- Bikram Sambat library (client-side) -->
   <script src="https://cdn.jsdelivr.net/npm/bikram-sambat-js@2.0.0/dist/bs.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <!-- Decorative Nepal-flag-style SVG background -->
-  <div id="bg-svg-wrap" aria-hidden="true">
-    <!-- SVG is injected from CSS (keeps files tidy) -->
-  </div>
-
   <header class="site-header">
     <div class="brand">
       <div class="logo">
+        <!-- Put your image file named exactly `profile.jpg` in the repo root -->
         <img src="profile.jpg" alt="Ishwar Neupane">
       </div>
       <div class="brand-text">
@@ -26,29 +23,24 @@
       </div>
     </div>
 
-    <nav class="main-nav" aria-label="Main">
-      <a href="index.html" class="nav-link active">About</a>
-      <a href="publications.html" class="nav-link">Research & Publications</a>
-      <a href="certifications.html" class="nav-link">Certifications</a>
-      <a href="experience.html" class="nav-link">Professional Experience</a>
-      <a href="contact.html" class="nav-link">Contact</a>
-      <button id="themeToggle" class="btn btn-ghost">Dark</button>
-      <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu">☰</button>
+    <nav class="main-nav" aria-label="main navigation">
+      <a href="index.html" class="active">About</a>
+      <a href="publications.html">Research & Publications</a>
+      <a href="certifications.html">Certifications</a>
+      <a href="experience.html">Professional Experience</a>
+      <a href="contact.html">Contact</a>
+      <button id="themeToggle" class="btn" title="Toggle dark mode">🌙</button>
     </nav>
   </header>
 
-  <main class="page container">
-    <article class="card about-card" id="about">
+  <main class="container page">
+    <article class="card">
       <h1>About</h1>
-      <p class="lead">
-        A hardworking, resilient civil engineer and project management professional with ~13 years of experience
-        in bridge and infrastructure construction across Nepal. Expertise in QA/QC, site supervision, and
-        contract administration for large road and bridge projects.
-      </p>
+      <p class="lead">A hardworking, resilient civil engineer with 13+ years of experience in bridge and infrastructure construction across Nepal. Expertise in QA/QC, site supervision, and contract administration for large road and bridge projects.</p>
 
       <div class="two-col">
         <div>
-          <h3>Languages</h3>
+          <h2>Languages</h2>
           <ul>
             <li>Nepali — Native</li>
             <li>Hindi — Proficient</li>
@@ -56,7 +48,7 @@
             <li>Chinese — HSK Level 4</li>
           </ul>
 
-          <h3>Trainings & Education</h3>
+          <h2>Trainings & Education</h2>
           <ul>
             <li>Master in Project Management — Dalian University of Technology (Dec 2023)</li>
             <li>B.Sc. Civil Engineering — Purwanchal Campus, Tribhuvan University</li>
@@ -64,14 +56,14 @@
         </div>
 
         <div>
-          <h3>Skills & Software</h3>
+          <h2>Skills & Software</h2>
           <ul>
             <li>AutoCAD, Revit, ETABS, SAFE</li>
-            <li>MS Office, MS Project, SPSS</li>
-            <li>Python programming, Smart PLS</li>
+            <li>MS Office, MS Project, SPSS, Smart PLS</li>
+            <li>Python programming</li>
           </ul>
 
-          <h3>Professional Affiliations</h3>
+          <h2>Professional Affiliations</h2>
           <ul>
             <li>Registered Engineer — Nepal Engineering Council</li>
             <li>Member — Nepal Engineering Association</li>
@@ -81,45 +73,27 @@
     </article>
   </main>
 
-  <!-- Fixed: Weather widget (top-right) -->
-  <div id="weatherWidget" class="widget weather" aria-live="polite" role="region">
-    <div class="weather-icon" id="weatherIcon">--</div>
-    <div class="weather-body">
-      <div id="weatherTemp">--°C</div>
-      <div id="weatherDesc" class="muted">Loading...</div>
-      <div id="weatherLoc" class="muted small">Kathmandu, NP</div>
-    </div>
-  </div>
+  <!-- Widgets: Weather (top-right), Chat (above BS), BS calendar (bottom-right), Visitor (left bottom) -->
+  <div id="weatherWidget" class="widget weather" aria-live="polite"></div>
 
-  <!-- Chatbot placeholder (bottom-right). Replace with your provider script in assets/app.js or paste script here -->
   <div id="chatPlaceholder" class="widget chat-placeholder" aria-hidden="false">
+    <!-- Chat placeholder; replace with your provider snippet or use installChatSnippet() -->
     <button id="chatBtn" class="btn btn-primary">Chat</button>
-    <!-- after you paste Tidio script it will show its bubble automatically;
-         this button is a helpful fallback for now -->
   </div>
 
-  <!-- Nepali (B.S.) calendar — bottom-right (below chat) -->
-  <div id="bsCalendar" class="widget bs-calendar" role="status" aria-live="polite">
-    <div id="bsDate">B.S. — loading...</div>
+  <div id="bsCalendar" class="widget bs-calendar">
+    <span id="bsDate">B.S. — loading...</span>
   </div>
 
-  <!-- Visitor widget (separate UI) -->
-  <div id="visitorWidget" class="widget visitor-widget" role="region" aria-live="polite">
-    <div><strong>Total visitors:</strong> <span id="totalVisits">--</span></div>
-    <div><strong>Top countries:</strong> <span id="top5">—</span></div>
+  <div id="visitorWidget" class="widget visitor-widget" aria-live="polite">
+    <div>Total visitors: <span id="totalVisits">--</span></div>
+    <div>Top countries: <span id="top5">--</span></div>
   </div>
 
   <footer class="site-footer">
-    <div class="footer-inner">
-      <div>© <span id="footerYear"></span> Ishwar Neupane</div>
-      <div class="small muted">Built for visibility · Editable locally</div>
-    </div>
+    <div>© <span id="footerYear"></span> Ishwar Neupane</div>
   </footer>
 
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
-
-
 </html>
-
-
