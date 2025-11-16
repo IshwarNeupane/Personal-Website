@@ -126,11 +126,14 @@ registerVisit();
 
 /* ---------- Bikram Sambat (B.S.) Calendar:--------- */
 function renderBS() {
-  const now = new Date();
-  const bs = AD2BS(now);
+  const now = new Date();  
+  const bs = AD2BS(now); // uses bikram-sambat-js library
   const months = ['Baishakh','Jestha','Ashadh','Shrawan','Bhadra','Ashwin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
   const bsStr = `${bs.year} ${months[bs.month - 1]} ${bs.day}`;
   document.querySelectorAll('#bsDate').forEach(e => e.textContent = bsStr);
+     } catch (e) {
+    console.error("BS conversion failed:", e);
+  }
 }
 renderBS();
 /* ---------- Chat snippet helper ---------- */
@@ -150,4 +153,5 @@ function installChatSnippet(snippet) {
 
 /* ---------- footer year fill ---------- */
 document.querySelectorAll('#footerYear').forEach(e => e.textContent = (new Date()).getFullYear());
+
 
