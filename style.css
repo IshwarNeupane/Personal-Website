@@ -267,8 +267,9 @@ body::before {
 }
 
 .btn-ghost {
-    background: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.06)
+    color: var(--text);
+  background: transparent;
+  border: 1px solid var(--text);
 }
 
 .btn-primary {
@@ -283,4 +284,5 @@ body::before {
 
 .small {
     font-size: 12px
+
 }
