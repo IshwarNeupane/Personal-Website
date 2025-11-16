@@ -1,176 +1,182 @@
-/* Shared app.js for all pages */
+/* app.js - shared for all pages */
 
-// ---------- CONFIG ----------
-const OPENWEATHER_API_KEY = '57d0913961b8dd3587935fb4252d809c'; // <-- REPLACE with your key
-const COUNTAPI_NAMESPACE = 'personal_homepage_example_ns'; // change to unique string if you like
+/* ---------- CONFIG ---------- */
+const OPENWEATHER_API_KEY = '57d0913961b8dd3587935fb4252d809c'; // YOUR KEY inserted
+const COUNTAPI_NAMESPACE = 'ishwar_neupane_homepage_ns';
 const COUNTAPI_KEY = 'total_visits';
+const VISITOR_SERVER_BASE = null; // set to server URL if you deploy server.js
 
-// ---------- THEME ----------
+/* ---------- THEME (dark toggle) ---------- */
 (function () {
     const saved = localStorage.getItem('theme_pref');
-    if (saved === 'dark') document.documentElement.classList.add('dark'), document.documentElement.classList.add('dark-root');
-    document.querySelectorAll('#themeToggle, #themeToggle2, #themeToggle3, #themeToggle4, #themeToggle5').forEach(btn => {
+    if (saved === 'dark') document.documentElement.classList.add('dark');
+    document.querySelectorAll('#themeToggle').forEach(btn => {
         if (!btn) return;
         btn.addEventListener('click', () => {
             document.documentElement.classList.toggle('dark');
-            document.documentElement.classList.toggle('dark-root');
             const isDark = document.documentElement.classList.contains('dark');
             localStorage.setItem('theme_pref', isDark ? 'dark' : 'light');
-            btn.textContent = isDark ? 'Light' : 'Dark';
+            btn.textContent = isDark ? '☀️' : '🌙';
         });
     });
 })();
 
-// ---------- WEATHER (OpenWeatherMap) ----------
-async function renderWeatherWidget() {
-    const tempEl = document.getElementById('weatherTemp');
-    const descEl = document.getElementById('weatherDesc');
-    const locEl = document.getElementById('weatherLoc');
-    const iconEl = document.getElementById('weatherIcon');
-    if (!tempEl || !descEl || !locEl) return;
+/* ---------- WEATHER (OpenWeatherMap) ---------- */
+async function initWeather() {
+    const widget = document.getElementById('weatherWidget') || document.querySelector('.weather');
+    if (!widget) return;
 
-    if (!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY === '57d0913961b8dd3587935fb4252d809c') {
-        descEl.textContent = 'API key missing — set in app.js';
-        tempEl.textContent = '--°C';
+    // ensure inner markup exists
+    widget.innerHTML = `
+    <div class="weather-icon" id="weatherIcon">--</div>
+    <div class="weather-body">
+      <div id="weatherTemp">--°C</div>
+      <div id="weatherDesc" class="muted">Loading...</div>
+      <div id="weatherLoc" class="muted small"></div>
+    </div>`;
+
+    if (!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY.indexOf(' ') >= 0) {
+        document.getElementById('weatherDesc').textContent = 'API key missing — set in app.js';
+        document.getElementById('weatherTemp').textContent = '--°C';
         return;
     }
 
-    // try geolocation, fallback to IP
-    function fetchByCoords(lat, lon) {
-        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${OPENWEATHER_API_KEY}`;
-        return fetch(url).then(r => r.json());
+    // prefer browser geolocation
+    function apply(j) {
+        if (!j || !j.main) return;
+        document.getElementById('weatherTemp').textContent = Math.round(j.main.temp) + '°C';
+        document.getElementById('weatherDesc').textContent = j.weather && j.weather[0] && j.weather[0].main || '';
+        document.getElementById('weatherLoc').textContent = (j.name || '') + (j.sys && j.sys.country ? ', ' + j.sys.country : '');
+        const icon = (j.weather && j.weather[0] && j.weather[0].icon) ? j.weather[0].icon : null;
+        const iconEl = document.getElementById('weatherIcon');
+        if (icon) iconEl.innerHTML = `<img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="" width="48" height="48">`;
     }
 
     try {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(async pos => {
-                const j = await fetchByCoords(pos.coords.latitude, pos.coords.longitude);
-                applyWeather(j);
+                const lat = pos.coords.latitude, lon = pos.coords.longitude;
+                const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${OPENWEATHER_API_KEY}`);
+                const j = await res.json();
+                apply(j);
             }, async () => {
-                const fallback = await fetch('https://ipapi.co/json/');
-                const j2 = await fallback.json();
-                if (j2 && j2.latitude && j2.longitude) {
-                    const j3 = await fetchByCoords(j2.latitude, j2.longitude);
-                    applyWeather(j3);
+                const r = await fetch('https://ipapi.co/json/');
+                const info = await r.json();
+                if (info && info.latitude && info.longitude) {
+                    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${info.latitude}&lon=${info.longitude}&units=metric&appid=${OPENWEATHER_API_KEY}`);
+                    const j = await res.json();
+                    apply(j);
                 }
             }, { timeout: 6000 });
         } else {
-            const fallback = await fetch('https://ipapi.co/json/');
-            const j2 = await fallback.json();
-            if (j2 && j2.latitude && j2.longitude) {
-                const j3 = await fetchByCoords(j2.latitude, j2.longitude);
-                applyWeather(j3);
+            const r = await fetch('https://ipapi.co/json/');
+            const info = await r.json();
+            if (info && info.latitude && info.longitude) {
+                const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${info.latitude}&lon=${info.longitude}&units=metric&appid=${OPENWEATHER_API_KEY}`);
+                const j = await res.json();
+                apply(j);
             }
         }
     } catch (e) {
-        console.warn('weather fail', e);
-        descEl.textContent = 'Unable to load weather';
-        tempEl.textContent = '--°C';
-    }
-
-    function applyWeather(j) {
-        if (!j) return;
-        tempEl.textContent = Math.round(j.main.temp) + '°C';
-        descEl.textContent = j.weather && j.weather[0] && j.weather[0].main || '';
-        locEl.textContent = (j.name || '') + (j.sys && j.sys.country ? ', ' + j.sys.country : '');
-        if (iconEl && j.weather && j.weather[0] && j.weather[0].icon) {
-            iconEl.innerHTML = `<img src="https://openweathermap.org/img/wn/${j.weather[0].icon}@2x.png" alt="${j.weather[0].description}" width="48" height="48">`;
-        }
+        console.warn('weather error', e);
+        document.getElementById('weatherDesc').textContent = 'Unable to load';
     }
 }
-renderWeatherWidget();
+initWeather();
 
-// ---------- VISITOR COUNTER (countapi + local country store) ----------
-async function updateVisitorCounter() {
-    // countapi global increase
+/* ---------- VISITOR COUNTER (countapi) ---------- */
+async function registerVisit() {
     try {
-        const res = await fetch(`https://api.countapi.xyz/hit/${COUNTAPI_NAMESPACE}/${COUNTAPI_KEY}`);
-        if (res.ok) {
-            const json = await res.json();
-            const el = document.getElementById('totalVisits');
-            if (el) el.textContent = json.value.toLocaleString();
+        const r = await fetch(`https://api.countapi.xyz/hit/${COUNTAPI_NAMESPACE}/${COUNTAPI_KEY}`);
+        if (r.ok) {
+            const j = await r.json();
+            const el = document.getElementById('totalVisits') || document.getElementById('totalVisitors');
+            if (el) el.textContent = j.value.toLocaleString();
         }
-    } catch (err) { console.warn('countapi fail', err); }
+    } catch (e) { console.warn('countapi fail', e); }
 
-    // detect visitor country via ipapi.co
+    // local country tally (demo)
     try {
         const r = await fetch('https://ipapi.co/json/');
         const j = await r.json();
         const country = (j && j.country_name) ? j.country_name : 'Unknown';
-        // local storage aggregator for demo/top5 display
         const key = 'visitor_country_counts_v1';
         const raw = localStorage.getItem(key);
         const obj = raw ? JSON.parse(raw) : {};
         obj[country] = (obj[country] || 0) + 1;
         localStorage.setItem(key, JSON.stringify(obj));
-        // render top5
-        const arr = Object.keys(obj).map(k => ({ country: k, count: obj[k] }));
-        arr.sort((a, b) => b.count - a.count);
-        const top5 = arr.slice(0, 5).map(x => `${x.country} (${x.count})`).join(', ');
-        const topEl = document.getElementById('top5');
-        if (topEl) topEl.textContent = top5 || '—';
-        // also set small visitor-widget copies on pages
-        document.querySelectorAll('.visitor-widget #totalVisits').forEach(el => {
-            // no-op (already set by countapi)
-        });
-    } catch (err) { console.warn('visitor country detect fail', err); }
+        renderTop5();
+        // optional backend post
+        if (VISITOR_SERVER_BASE) {
+            fetch(VISITOR_SERVER_BASE + '/visit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ country }) }).catch(() => { });
+        }
+    } catch (e) { console.warn('visitor detect fail', e); renderTop5(); }
 }
-updateVisitorCounter();
-
-// ---------- BS (Bikram Sambat) calendar — simple algorithmic approximation ----------
-function renderBSDate() {
-    // Approximate conversion:
-    // If date >= Apr 14 => BS year = AD year + 57; else AD year + 56.
-    // This yields correct BS YEAR but day/month needs a full mapping for perfect accuracy.
-    // For complete accuracy replace with a Nepali date API or a full conversion table.
-    const now = new Date();
-    const adYear = now.getFullYear();
-    const month = now.getMonth() + 1; // 1..12
-    const day = now.getDate();
-    let bsYear = (month > 4 || (month === 4 && day >= 14)) ? adYear + 57 : adYear + 56;
-
-    // Approximate BS month/date using offset of roughly 17 days; *approximate only*
-    // NOTE: This is intentionally approximate — replace with accurate API if you need exact daily BS date.
-    const approxOffsetDays = 17;
-    const approxDate = new Date(now.getTime() + approxOffsetDays * 24 * 60 * 60 * 1000);
-    const monthsBS = ['Baishakh', 'Jestha', 'Ashadh', 'Shrawan', 'Bhadra', 'Ashwin', 'Kartik', 'Mangsir', 'Poush', 'Magh', 'Falgun', 'Chaitra'];
-    const bsMonthIndex = ((approxDate.getMonth() + 9) % 12); // rough shift
-    const bsDay = approxDate.getDate();
-    const bsStr = `${bsYear} ${monthsBS[bsMonthIndex]} ${bsDay}`;
-    document.querySelectorAll('#bsDate').forEach(el => el.textContent = bsStr);
+function renderTop5() {
+    const key = 'visitor_country_counts_v1';
+    const raw = localStorage.getItem(key);
+    const obj = raw ? JSON.parse(raw) : {};
+    const arr = Object.keys(obj).map(k => ({ country: k, count: obj[k] }));
+    arr.sort((a, b) => b.count - a.count);
+    const top5 = arr.slice(0, 5);
+    const el = document.getElementById('top5') || document.getElementById('topCountries');
+    if (el) el.textContent = top5.map(x => `${x.country} (${x.count})`).join(', ') || '—';
 }
-renderBSDate();
+registerVisit();
 
-// ---------- Chat button fallback: when pressed open a small panel (provider script preferred) ----------
-document.querySelectorAll('#chatBtn, #chatBtn2').forEach(btn => {
-    if (!btn) return;
-    btn.addEventListener('click', () => {
-        alert('Chat widget not installed. To enable live chat: sign up at Tidio/Crisp, copy the script they give you and paste it into the top of each HTML page (replace the chat placeholder).');
-    });
-});
+/* ---------- Bikram Sambat (B.S.) Calendar: use sudhanparajuli API for exact conversion ---------- */
+async function renderBS() {
+    try {
+        const now = new Date();
+        const y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
+        const url = `https://sudhanparajuli.com.np/api/ad-to-bs/${y}/${m}/${d}`;
+        const r = await fetch(url);
+        if (!r.ok) throw new Error('BS API fail');
+        const j = await r.json();
+        // API returns { year:2079, month:10, date:17, ... } or similar — handle both shapes
+        let bsStr = '';
+        if (j && (j.year || j.bs_year)) {
+            const yyyy = j.year || j.bs_year || j.bsYear;
+            const mm = j.month || j.bs_month || j.bsMonth;
+            const dd = j.date || j.day || j.bs_day;
+            const months = ['Baishakh', 'Jestha', 'Ashadh', 'Shrawan', 'Bhadra', 'Ashwin', 'Kartik', 'Mangsir', 'Poush', 'Magh', 'Falgun', 'Chaitra'];
+            const mname = months[(mm - 1 + 12) % 12] || '';
+            bsStr = `${yyyy} ${mname} ${dd}`;
+        } else if (j && j.bsDateString) {
+            bsStr = j.bsDateString;
+        } else {
+            bsStr = `${y + 57} (approx)`; // fallback
+        }
+        document.querySelectorAll('#bsDate').forEach(e => e.textContent = bsStr);
+    } catch (e) {
+        console.warn('BS render error', e);
+        // fallback approx (previous approach)
+        const now = new Date();
+        const adYear = now.getFullYear(), month = now.getMonth() + 1, day = now.getDate();
+        const bsYear = (month > 4 || (month === 4 && day >= 14)) ? adYear + 57 : adYear + 56;
+        const monthsBS = ['Baishakh', 'Jestha', 'Ashadh', 'Shrawan', 'Bhadra', 'Ashwin', 'Kartik', 'Mangsir', 'Poush', 'Magh', 'Falgun', 'Chaitra'];
+        const approx = new Date(now.getTime() + 17 * 24 * 60 * 60 * 1000);
+        const idx = (approx.getMonth() + 9) % 12;
+        const bsStr = `${bsYear} ${monthsBS[idx]} ${approx.getDate()}`;
+        document.querySelectorAll('#bsDate').forEach(e => e.textContent = bsStr);
+    }
+}
+renderBS();
 
-// ---------- Footer year fill on all pages ----------
-document.querySelectorAll('#footerYear, #footerYear2, #footerYear3, #footerYear4, #footerYear5').forEach(el => {
-    if (el) el.textContent = (new Date()).getFullYear();
-});
-
-/* -------------------------
-   Helpful functions you can call from console:
-   - installChatSnippet(snippetString) -> stores snippet in localStorage and dynamically injects it
--------------------------- */
+/* ---------- Chat snippet helper ---------- */
 function installChatSnippet(snippet) {
-    localStorage.setItem('chat_snippet', snippet);
-    const div = document.createElement('div');
-    div.innerHTML = snippet;
-    document.body.appendChild(div);
-    alert('Chat snippet injected for this browser (also saved to localStorage). For global installation paste snippet into each page HTML as instructed.');
+    try {
+        localStorage.setItem('chat_snippet', snippet);
+        const div = document.createElement('div'); div.innerHTML = snippet; document.body.appendChild(div);
+        alert('Chat snippet injected & saved for this browser.');
+    } catch (e) { alert('Failed to save chat snippet: ' + e.message) }
 }
-// If there is a stored snippet in localStorage, inject it
 (function () {
     const snip = localStorage.getItem('chat_snippet');
     if (snip) {
-        const d = document.createElement('div');
-        d.innerHTML = snip;
-        document.body.appendChild(d);
+        const d = document.createElement('div'); d.innerHTML = snip; document.body.appendChild(d);
     }
 })();
+
+/* ---------- footer year fill ---------- */
+document.querySelectorAll('#footerYear').forEach(e => e.textContent = (new Date()).getFullYear());
