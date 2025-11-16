@@ -80,3 +80,12 @@ a{color:var(--nepal-blue)}
 .btn-primary{background:linear-gradient(135deg,var(--nepal-blue),var(--nepal-red));color:white;font-weight:800}
 .muted{color:var(--muted)}
 .small{font-size:12px}
+
+.footer-logo {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
