@@ -82,9 +82,10 @@
     <button id="chatBtn" class="btn btn-primary">Chat</button>
   </div>
 
-  <div id="bsCalendar" class="widget bs-calendar">
-    <span id="bsDate">B.S. — loading...</span>
-  </div>
+  <div id="bsCalendar" class="widget bs-calendar" aria-live="polite">
+  <div id="bsDate">B.S. — loading...</div>
+  <div id="bsWeekday" class="small muted" aria-hidden="false">Loading weekday...</div>
+</div>
 
   <div id="visitorWidget" class="widget visitor-widget" aria-live="polite">
     <div>Total visitors: <span id="totalVisits">--</span></div>
@@ -98,4 +99,5 @@
 <script src="app.js"></script>
 </body>
 </html>
+
 
