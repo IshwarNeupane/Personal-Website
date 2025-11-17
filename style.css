@@ -66,6 +66,59 @@ a{color:var(--nepal-blue)}
 .bs-calendar{right:20px;bottom:20px;background:var(--nepal-blue);color:white;padding:10px 14px;border-radius:10px}
 .visitor-widget{left:20px;bottom:20px;min-width:220px;padding:10px;border-radius:10px}
 
+/* Responsive iframe wrappers for calendar and clock widgets */
+.iframe-wrapper {
+  width: 100%;
+  height: 100%;
+  max-height: 650px; /* the embed uses 650px by default */
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+/* Ensure the widget container has a sensible size */
+.widget.bs-calendar { 
+  right: 20px;
+  bottom: 20px;
+  width: 360px;          /* desktop fallback width */
+  height: 420px;         /* adjust to taste */
+  padding: 8px;
+}
+
+/* Larger calendar (if you want full-width in the page main area, override) */
+@media (min-width: 1000px) {
+  .widget.bs-calendar { width: 420px; height: 520px; }
+}
+
+/* Clock widget sizing */
+.widget.nepali-clock-widget { 
+  right: 20px;
+  bottom: 140px;  /* above bs-calendar */
+  width: 270px;
+  height: 121px;
+  padding: 6px;
+  display: block;
+}
+
+/* mobile adjustments */
+@media (max-width: 700px) {
+  .widget.bs-calendar {
+    right: 12px;
+    bottom: 12px;
+    width: 320px;
+    height: 380px;
+  }
+  .widget.nepali-clock-widget {
+    right: 12px;
+    bottom: 410px; /* stack above calendar on small screens */
+  }
+}
+
+/* Optional: add subtle dark overlay to iframe background in dark mode */
+.dark .iframe-wrapper,
+:root.dark .iframe-wrapper {
+  filter: contrast(0.95) brightness(0.9);
+}
+
 /* responsive widgets */
 @media (max-width:900px){
   .weather{right:12px;top:80px;width:180px}
@@ -119,3 +172,4 @@ a{color:var(--nepal-blue)}
     50%  { transform: translateY(-6px); }
     100% { transform: translateY(0); }
 }
+
