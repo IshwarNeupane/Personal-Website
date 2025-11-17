@@ -56,10 +56,18 @@ irrigation project"</strong> — Master degree dissertation in Project Managemen
 
   <div id="weatherWidget" class="widget weather"></div>
   <div id="chatPlaceholder" class="widget chat-placeholder"><button id="chatBtn2" class="btn btn-primary">Chat</button></div>
-  <div id="bsCalendar" class="widget bs-calendar" aria-live="polite">
-  <div id="bsDate">B.S. — loading...</div>
-  <div id="bsWeekday" class="small muted" aria-hidden="false">Loading weekday...</div>
-</div>
+    <!-- NEW NEPALI CALENDAR WIDGET -->
+<div id="bsCalendar" class="widget bs-calendar" aria-live="polite">
+  <div class="iframe-wrapper calendar-iframe-wrapper">
+   <iframe 
+     src="https://nepalicalendar.rat32.com/clockwidget/nepali-clock-widget-horizontal-red.php"
+     frameborder="0" 
+     scrolling="no" 
+     marginwidth="0" 
+     marginheight="0" 
+     style="border:none; overflow:hidden; width:270px; height:121px;" 
+     allowtransparency="true">
+   </iframe>
 
   <div id="visitorWidget" class="widget visitor-widget"><div>Total visitors: <span id="totalVisits">--</span></div><div>Top countries: <span id="top5">--</span></div></div>
 
@@ -76,13 +84,12 @@ irrigation project"</strong> — Master degree dissertation in Project Managemen
          alt="IN Logo Dark" 
          class="footer-logo footer-logo-dark">
 </footer>
-<!-- Nepali Date Converter (exact, client-side) -->
-<script src="https://cdn.jsdelivr.net/npm/nepali-date-converter/dist/nepali-date-converter.umd.js"></script>
 
 <script src="app.js"></script>
 
 </body>
 </html>
+
 
 
 
