@@ -1,10 +1,10 @@
-/* app.js - shared for all pages */
+/* app.js - unified & robust version (replace entire file) */
 
 /* ---------- CONFIG ---------- */
 const OPENWEATHER_API_KEY = '57d0913961b8dd3587935fb4252d809c';
 const COUNTAPI_NAMESPACE = 'ishwar_neupane_homepage_ns';
 const COUNTAPI_KEY = 'total_visits';
-const VISITOR_SERVER_BASE = null; // set to your backend URL if deployed
+const VISITOR_SERVER_BASE = null; // set to server URL if you deploy a backend
 
 /* ---------- THEME (dark toggle) ---------- */
 (function(){
@@ -25,7 +25,7 @@ const VISITOR_SERVER_BASE = null; // set to your backend URL if deployed
 /* ---------- WEATHER (OpenWeatherMap) ---------- */
 async function initWeather(){
   const widget = document.getElementById('weatherWidget');
-  if(!widget) return;
+  if(!widget) { console.warn('weatherWidget element not found'); return; }
 
   widget.innerHTML = `
     <div class="weather-icon" id="weatherIcon">--</div>
@@ -36,7 +36,8 @@ async function initWeather(){
     </div>`;
 
   if(!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY.indexOf(' ')>=0){
-    document.getElementById('weatherDesc').textContent = 'API key missing — set in app.js';
+    const desc = document.getElementById('weatherDesc');
+    if(desc) desc.textContent = 'API key missing — set in app.js';
     return;
   }
 
@@ -53,18 +54,22 @@ async function initWeather(){
   try {
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(async pos=>{
-        const lat = pos.coords.latitude, lon = pos.coords.longitude;
-        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${OPENWEATHER_API_KEY}`);
-        const j = await res.json();
-        apply(j);
-      }, async ()=>{
-        const r = await fetch('https://ipapi.co/json/');
-        const info = await r.json();
-        if(info && info.latitude && info.longitude){
-          const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${info.latitude}&lon=${info.longitude}&units=metric&appid=${OPENWEATHER_API_KEY}`);
+        try{
+          const lat = pos.coords.latitude, lon = pos.coords.longitude;
+          const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${OPENWEATHER_API_KEY}`);
           const j = await res.json();
           apply(j);
-        }
+        }catch(e){ console.warn('weather geolocation fetch fail', e); }
+      }, async ()=>{
+        try{
+          const r = await fetch('https://ipapi.co/json/');
+          const info = await r.json();
+          if(info && info.latitude && info.longitude){
+            const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${info.latitude}&lon=${info.longitude}&units=metric&appid=${OPENWEATHER_API_KEY}`);
+            const j = await res.json();
+            apply(j);
+          }
+        }catch(e){ console.warn('weather ip fallback fail', e); }
       }, {timeout:6000});
     } else {
       const r = await fetch('https://ipapi.co/json/');
@@ -83,73 +88,164 @@ async function initWeather(){
 }
 initWeather();
 
-/* ---------- VISITOR COUNTER (countapi) ---------- */
-async function registerVisit(){
+/* ---------- VISITOR COUNTER (countapi) & top countries ---------- */
+async function registerVisitAndRender() {
+  // Try to increment global total via countapi
+  let totalFromAPI = null;
   try {
     const r = await fetch(`https://api.countapi.xyz/hit/${COUNTAPI_NAMESPACE}/${COUNTAPI_KEY}`);
     if(r.ok){
       const j = await r.json();
-      const el = document.getElementById('totalVisits') || document.getElementById('totalVisitors');
-      if(el) el.textContent = j.value.toLocaleString();
+      totalFromAPI = Number(j.value) || null;
+      // write to DOM if element exists
+      const totalEl = document.getElementById('totalVisits') || document.getElementById('totalVisitors');
+      if(totalEl && totalFromAPI !== null) totalEl.textContent = totalFromAPI.toLocaleString();
+    } else {
+      console.warn('countapi returned non-ok', r.status);
     }
-  } catch(e){ console.warn('countapi fail', e); }
+  } catch(e){
+    console.warn('countapi request failed', e);
+  }
 
+  // get country via ipapi (fallback local aggregation)
+  let country = 'Unknown';
   try {
     const r = await fetch('https://ipapi.co/json/');
     const j = await r.json();
-    const country = (j && j.country_name) ? j.country_name : 'Unknown';
+    country = (j && j.country_name) ? j.country_name : 'Unknown';
+  } catch(e){
+    console.warn('ipapi fetch failed', e);
+  }
+
+  // update local per-country tally for demo (persisted)
+  try {
     const key = 'visitor_country_counts_v1';
     const raw = localStorage.getItem(key);
     const obj = raw ? JSON.parse(raw) : {};
     obj[country] = (obj[country] || 0) + 1;
     localStorage.setItem(key, JSON.stringify(obj));
-    renderTop5();
-    if(VISITOR_SERVER_BASE){
-      fetch(VISITOR_SERVER_BASE + '/visit', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({country}) }).catch(()=>{});
+  } catch(e){ console.warn('local visitor storage failed', e); }
+
+  // Render top5 from either server (if available) or local storage
+  await renderTopCountries(totalFromAPI);
+}
+
+async function renderTopCountries(totalFromAPI = null) {
+  // Try server first (optional)
+  if (typeof VISITOR_SERVER_BASE === 'string' && VISITOR_SERVER_BASE) {
+    try {
+      const r = await fetch(VISITOR_SERVER_BASE + '/stats/top');
+      if (r.ok) {
+        const j = await r.json();
+        if (j && j.top) {
+          writeTopAndTotal(j.top, totalFromAPI);
+          return;
+        }
+      }
+    } catch(e){ console.warn('visitor server top fetch failed', e); }
+  }
+
+  // fallback to localStorage
+  try {
+    const key = 'visitor_country_counts_v1';
+    const raw = localStorage.getItem(key);
+    const obj = raw ? JSON.parse(raw) : {};
+    const arr = Object.keys(obj).map(k => ({country:k, count: obj[k]}));
+    arr.sort((a,b)=>b.count - a.count);
+    const top = arr.slice(0,5);
+    writeTopAndTotal(top, totalFromAPI);
+  } catch(e){
+    console.warn('renderTopCountries fallback failed', e);
+    // clear displays to safe defaults
+    const topEl = document.getElementById('top5') || document.getElementById('topCountries');
+    if(topEl) topEl.textContent = '—';
+    const totalEl = document.getElementById('totalVisits') || document.getElementById('totalVisitors');
+    if(totalEl && totalFromAPI === null) totalEl.textContent = '—';
+  }
+}
+
+function writeTopAndTotal(topArray, totalFromAPI=null){
+  // topArray is [{country, count}, ...]
+  const topEl = document.getElementById('top5') || document.getElementById('topCountries');
+  const totalEl = document.getElementById('totalVisits') || document.getElementById('totalVisitors');
+
+  const sumTop = topArray.reduce((s,i)=>s + Number(i.count || 0), 0);
+
+  // If countapi provided a total, use it; otherwise use the sum of top+others from localStorage
+  let finalTotal = totalFromAPI;
+  if(finalTotal === null){
+    // Try derive total from localStorage (sum of all countries)
+    try {
+      const key = 'visitor_country_counts_v1';
+      const obj = JSON.parse(localStorage.getItem(key) || '{}');
+      finalTotal = Object.values(obj).reduce((s,v)=>s + Number(v || 0), 0);
+    } catch(e){ finalTotal = sumTop; }
+  }
+
+  // Ensure finalTotal >= sumTop
+  if(finalTotal === null) finalTotal = sumTop;
+  if(finalTotal < sumTop) finalTotal = sumTop;
+
+  // render
+  if(topEl) {
+    if(topArray.length === 0) topEl.textContent = '—';
+    else topEl.textContent = topArray.map(x=>`${x.country} (${x.count})`).join(', ');
+  }
+  if(totalEl) totalEl.textContent = finalTotal !== null ? finalTotal.toLocaleString() : '--';
+}
+
+/* run visitor logic */
+registerVisitAndRender();
+
+/* ---------- B.S. calendar: wait for library then render ---------- */
+function waitForNepaliLibAndRender(retries=20, delay=200){
+  if (typeof NepaliDateConverter !== 'undefined' && typeof NepaliDateConverter.adToBs === 'function') {
+    try {
+      const today = new Date();
+      const bs = NepaliDateConverter.adToBs(today.getFullYear(), today.getMonth()+1, today.getDate());
+      const monthNames = ["Baishakh","Jestha","Ashadh","Shrawan","Bhadra","Ashwin","Kartik","Mangsir","Poush","Magh","Falgun","Chaitra"];
+      const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      const dateEl = document.getElementById('bsDate');
+      const weekEl = document.getElementById('bsWeekday');
+      if(dateEl) dateEl.textContent = `${bs.year} ${monthNames[bs.month - 1]} ${bs.day}`;
+      if(weekEl) weekEl.textContent = weekdays[today.getDay()];
+      console.info('B.S. calendar rendered from NepaliDateConverter:', bs);
+    } catch(e){
+      console.error('Error while rendering BS from library:', e);
+      // fallback later
+      if(retries>0) setTimeout(()=>waitForNepaliLibAndRender(retries-1, delay), delay);
+      else fallbackApproxBS();
     }
-  } catch(e){ console.warn('visitor detect fail', e); renderTop5(); }
+  } else {
+    if(retries>0) setTimeout(()=>waitForNepaliLibAndRender(retries-1, delay), delay);
+    else {
+      console.warn('NepaliDateConverter not found after retries, using fallback approx');
+      fallbackApproxBS();
+    }
+  }
 }
-function renderTop5(){
-  const key = 'visitor_country_counts_v1';
-  const raw = localStorage.getItem(key);
-  const obj = raw ? JSON.parse(raw) : {};
-  const arr = Object.keys(obj).map(k=>({country:k,count:obj[k]}));
-  arr.sort((a,b)=>b.count-a.count);
-  const top5 = arr.slice(0,5);
-  const el = document.getElementById('top5') || document.getElementById('topCountries');
-  if(el) el.textContent = top5.map(x=>`${x.country} (${x.count})`).join(', ') || '—';
+
+function fallbackApproxBS(){
+  // approximate fallback only used when library is missing
+  const now = new Date();
+  const adYear = now.getFullYear(), m = now.getMonth()+1, d = now.getDate();
+  const bsYear = (m > 4 || (m === 4 && d >= 14)) ? adYear + 57 : adYear + 56;
+  const monthsApprox = ['Baishakh','Jestha','Ashadh','Shrawan','Bhadra','Ashwin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
+  const approx = new Date(now.getTime() + 17*24*60*60*1000);
+  const idx = (approx.getMonth() + 9) % 12;
+  const bsStr = `${bsYear} ${monthsApprox[idx]} ${approx.getDate()} (approx)`;
+  const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const weekday = weekdays[now.getDay()];
+  const dateEl = document.getElementById('bsDate');
+  const weekEl = document.getElementById('bsWeekday');
+  if(dateEl) dateEl.textContent = bsStr;
+  if(weekEl) weekEl.textContent = weekday;
 }
-registerVisit();
 
-function loadBSDate() {
-    const today = new Date();
+/* start waiting for the library and render */
+waitForNepaliLibAndRender();
 
-    // Convert AD → BS using correct function call
-    const bs = NepaliDateConverter.adToBs(
-        today.getFullYear(),
-        today.getMonth() + 1,
-        today.getDate()
-    );
-
-    const monthNames = [
-        "Baishakh", "Jestha", "Ashadh", "Shrawan", "Bhadra", "Ashwin",
-        "Kartik", "Mangsir", "Poush", "Magh", "Falgun", "Chaitra"
-    ];
-
-    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    const weekday = weekdays[today.getDay()];
-
-    // Write into correct HTML ID elements
-    const dateEl = document.getElementById("bsDate");
-    const weekEl = document.getElementById("bsWeekday");
-
-    if (dateEl) dateEl.innerHTML = `${bs.year} ${monthNames[bs.month - 1]} ${bs.day}`;
-    if (weekEl) weekEl.textContent = weekday;
-}
-loadBSDate();
-
-
-/* ---------- Chat snippet helper ---------- */
+/* ---------- Chat snippet helper (unchanged) ---------- */
 function installChatSnippet(snippet){
   try {
     localStorage.setItem('chat_snippet', snippet);
@@ -166,6 +262,3 @@ function installChatSnippet(snippet){
 
 /* ---------- Footer year ---------- */
 document.querySelectorAll('#footerYear').forEach(e=>e.textContent = (new Date()).getFullYear());
-
-
-
