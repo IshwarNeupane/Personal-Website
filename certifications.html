@@ -61,25 +61,34 @@
     </article>
   </main>
 
-  <div id="weatherWidget" class="widget weather"></div>
-  <div id="chatPlaceholder" class="widget chat-placeholder"><button class="btn btn-primary">Chat</button></div>
-   <!-- NEW NEPALI CALENDAR WIDGET -->
-<div id="bsCalendar" class="widget bs-calendar" aria-live="polite">
-  <div class="iframe-wrapper calendar-iframe-wrapper">
-   <iframe 
-     src="https://nepalicalendar.rat32.com/clockwidget/nepali-clock-widget-horizontal-red.php"
-     frameborder="0" 
-     scrolling="no" 
-     marginwidth="0" 
-     marginheight="0" 
-     style="border:none; overflow:hidden; width:270px; height:121px;" 
-     allowtransparency="true">
-   </iframe>
+   <!-- Widgets: Weather (top-right), Chat (above BS), BS calendar (bottom-right), Visitor (left bottom) -->
+<div id="weatherWidget" class="widget weather" aria-live="polite"></div>
 
-  <div id="visitorWidget" class="widget visitor-widget"><div>Total visitors: <span id="totalVisits">--</span></div><div>Top countries: <span id="top5">--</span></div></div>
+<div id="chatPlaceholder" class="widget chat-placeholder" aria-hidden="false">
+  <button id="chatBtn" class="btn btn-primary">Chat</button>
+</div>
 
- <footer class="footer nepal-footer">
-    <p> Copyrights © 2025 - Ishwar Neupane</p>
+<!-- NEPALI CLOCK (bottom right corner) -->
+<div id="nepaliClockWidget" class="widget nepali-clock-widget" aria-live="polite">
+  <iframe 
+    src="https://nepalicalendar.rat32.com/clockwidget/nepali-clock-widget-horizontal-red.php"
+    frameborder="0"
+    scrolling="no"
+    marginwidth="0"
+    marginheight="0"
+    allowtransparency="true">
+  </iframe>
+</div>
+
+<!-- VISITOR COUNTER (bottom-left) -->
+<div id="visitorWidget" class="widget visitor-widget" aria-live="polite">
+  <div>Total visitors: <span id="totalVisits">--</span></div>
+  <div>Top countries: <span id="top5">--</span></div>
+</div>
+
+<!-- FOOTER (MUST BE OUTSIDE ALL WIDGETS) -->
+<footer class="footer nepal-footer">
+    <p>Copyrights © 2025 – Ishwar Neupane</p>
 
     <!-- Light mode image -->
     <img src="faviicon1.png" 
@@ -93,19 +102,5 @@
 </footer>
 
 <script src="app.js"></script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
