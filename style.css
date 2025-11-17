@@ -15,11 +15,16 @@
 
 /* base */
 *{box-sizing:border-box}
-html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;background:
+html,body{
+  height:100%;
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;
+  background:
     linear-gradient(180deg, rgba(0,56,147,0.05), transparent 40%),
     linear-gradient(180deg, transparent 60%, rgba(191,10,48,0.05)),
     var(--bg);
-color:var(--text)}
+  color:var(--text)
+}
 a{color:var(--nepal-blue)}
 .container{max-width:1100px;margin:28px auto;padding:0 16px}
 
@@ -32,7 +37,10 @@ a{color:var(--nepal-blue)}
   backdrop-filter: blur(6px);
   border-bottom:1px solid rgba(0,0,0,0.06);
 }
-:root.dark .site-header{ background: linear-gradient(90deg, rgba(8,9,12,0.85), rgba(8,9,12,0.4)); border-bottom:1px solid rgba(255,255,255,0.04) }
+:root.dark .site-header{
+  background: linear-gradient(90deg, rgba(8,9,12,0.85), rgba(8,9,12,0.4));
+  border-bottom:1px solid rgba(255,255,255,0.04)
+}
 
 .brand{display:flex;gap:12px;align-items:center}
 .logo{width:48px;height:48px;border-radius:8px;overflow:hidden;display:grid;place-items:center;background:linear-gradient(135deg,var(--nepal-blue),var(--nepal-red));color:white;font-weight:800}
@@ -42,134 +50,192 @@ a{color:var(--nepal-blue)}
 
 /* nav */
 .main-nav{display:flex;align-items:center;gap:10px}
-.main-nav a{padding:8px 10px;border-radius:8px;font-weight:700;text-decoration:none;color:inherit}
-.main-nav a.active{background:linear-gradient(135deg,var(--nepal-red),var(--nepal-blue));color:white}
+.main-nav a{
+  padding:8px 10px;
+  border-radius:8px;
+  font-weight:700;
+  text-decoration:none;
+  color:inherit
+}
+.main-nav a.active{
+  background:linear-gradient(135deg,var(--nepal-red),var(--nepal-blue));
+  color:white
+}
 @media (max-width:900px){
   .main-nav a:not(.active){display:none}
 }
 
 /* page cards */
-.card{background:var(--card-bg);padding:20px;border-radius:14px;box-shadow:0 10px 30px rgba(8,8,15,0.06);margin-bottom:18px;color:var(--text)}
+.card{
+  background:var(--card-bg);
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(8,8,15,0.06);
+  margin-bottom:18px;
+  color:var(--text)
+}
 .lead{color:var(--muted)}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 @media (max-width:800px){ .two-col{grid-template-columns:1fr} }
 
 /* footer */
-.site-footer{padding:28px 0;text-align:center;color:var(--muted);margin-top:18px}
+.site-footer{
+  padding:28px 0;
+  text-align:center;
+  color:var(--muted);
+  margin-top:18px
+}
 
-/* WIDGETS */
-.widget{position:fixed;padding:10px;border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,0.10);background:var(--card-bg);z-index:120;color:var(--text)}
-.weather{right:20px;top:90px;width:240px;display:flex;gap:12px;align-items:center}
-.weather-icon{width:60px;height:60px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--nepal-blue),var(--nepal-red));color:white;font-weight:800}
+/* WIDGET BASE */
+.widget{
+  position:fixed;
+  padding:10px;
+  border-radius:12px;
+  box-shadow:0 12px 36px rgba(0,0,0,0.10);
+  background:var(--card-bg);
+  z-index:120;
+  color:var(--text);
+}
+
+/**********************
+  WEATHER (top-right)
+**********************/
+.weather{
+  right:20px;
+  top:90px;
+  width:240px;
+  display:flex;
+  gap:12px;
+  align-items:center
+}
+.weather-icon{
+  width:60px;height:60px;border-radius:10px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--nepal-blue),var(--nepal-red));
+  color:white;font-weight:800
+}
 .weather .muted{color:var(--muted);font-size:13px}
-.chat-placeholder{right:20px;bottom:110px}
-.bs-calendar{right:20px;bottom:20px;background:var(--nepal-blue);color:white;padding:10px 14px;border-radius:10px}
-.visitor-widget{left:20px;bottom:20px;min-width:220px;padding:10px;border-radius:10px}
 
-/* Responsive iframe wrappers for calendar and clock widgets */
-.iframe-wrapper {
-  width: 100%;
-  height: 100%;
-  max-height: 650px; /* the embed uses 650px by default */
-  overflow: hidden;
-  border-radius: 6px;
+/**********************
+  CHAT (above clock)
+**********************/
+.chat-placeholder{
+  right:20px;
+  bottom:260px;
 }
 
-/* Ensure the widget container has a sensible size */
-.widget.bs-calendar { 
-  right: 20px;
-  bottom: 20px;
-  width: 360px;          /* desktop fallback width */
-  height: 420px;         /* adjust to taste */
-  padding: 8px;
+/**********************
+  FIXED VISITOR COUNTER
+**********************/
+#visitorWidget{
+  position:fixed !important;
+  bottom:20px !important;
+  left:20px !important;
+  z-index:999;
+  min-width:220px;
+  padding:10px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.85);
+  color:#111;
+}
+:root.dark #visitorWidget{
+  background:rgba(0,0,0,0.75);
+  color:white;
 }
 
-/* Larger calendar (if you want full-width in the page main area, override) */
-@media (min-width: 1000px) {
-  .widget.bs-calendar { width: 420px; height: 520px; }
+/********************************
+   NEPALI CALENDAR (bottom-right)
+*********************************/
+#bsCalendar{
+  right:20px !important;
+  bottom:160px !important;
+  width:260px !important;
+  height:320px !important;
+  padding:0 !important;
+}
+#bsCalendar iframe{
+  width:100% !important;
+  height:100% !important;
+  border-radius:10px !important;
 }
 
-/* Clock widget sizing */
-.widget.nepali-clock-widget { 
-  right: 20px;
-  bottom: 140px;  /* above bs-calendar */
-  width: 270px;
-  height: 121px;
-  padding: 6px;
-  display: block;
+/********************************
+   NEPALI CLOCK (bottom-right)
+*********************************/
+#nepaliClockWidget{
+  right:20px !important;
+  bottom:20px !important;
+  width:260px !important;
+  height:130px !important;
+  padding:0 !important;
+}
+#nepaliClockWidget iframe{
+  width:100% !important;
+  height:100% !important;
+  border-radius:10px !important;
 }
 
 /* mobile adjustments */
-@media (max-width: 700px) {
-  .widget.bs-calendar {
-    right: 12px;
-    bottom: 12px;
-    width: 320px;
-    height: 380px;
+@media (max-width:700px){
+  #bsCalendar{
+    right:12px !important;
+    bottom:160px !important;
+    width:240px !important;
+    height:300px !important;
   }
-  .widget.nepali-clock-widget {
-    right: 12px;
-    bottom: 410px; /* stack above calendar on small screens */
+  #nepaliClockWidget{
+    right:12px !important;
+    bottom:20px !important;
   }
 }
 
-/* Optional: add subtle dark overlay to iframe background in dark mode */
-.dark .iframe-wrapper,
-:root.dark .iframe-wrapper {
-  filter: contrast(0.95) brightness(0.9);
-}
-
-/* responsive widgets */
-@media (max-width:900px){
-  .weather{right:12px;top:80px;width:180px}
-  .chat-placeholder{right:12px;bottom:140px}
-  .bs-calendar{right:12px;bottom:20px}
-  .visitor-widget{left:12px;bottom:20px;min-width:160px}
-}
+/* subtle dark styling for iframes */
+:root.dark iframe{ filter: brightness(0.85); }
 
 /* buttons */
-.btn{border:none;padding:8px 10px;border-radius:8px;cursor:pointer;color:var(--text);background:transparent;border:1px solid rgba(0,0,0,0.06)}
-:root.dark .btn{border:1px solid rgba(255,255,255,0.06)}
-.btn-primary{background:linear-gradient(135deg,var(--nepal-blue),var(--nepal-red));color:white;font-weight:800}
+.btn{
+  border:none;
+  padding:8px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  color:var(--text);
+  background:transparent;
+  border:1px solid rgba(0,0,0,0.06)
+}
+:root.dark .btn{
+  border:1px solid rgba(255,255,255,0.06)
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--nepal-blue),var(--nepal-red));
+  color:white;
+  font-weight:800
+}
 .muted{color:var(--muted)}
 .small{font-size:12px}
 
-.footer-logo {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 8px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+/********************************
+      FOOTER LOGO + ANIMATION
+*********************************/
+.nepal-footer{
+  background: linear-gradient(135deg, #ce1126 40%, #003893 100%);
+  padding:40px 20px;
+  color:white;
+  text-align:center;
+}
+.footer-logo{
+  width:300px;
+  height:auto;
+  margin-top:15px;
+  animation: gentleFloat 4s ease-in-out infinite;
 }
 
-/* --- FOOTER NEPALI FLAG COLORS --- */
-.nepal-footer {
-    background: linear-gradient(135deg, #ce1126 40%, #003893 100%);
-    padding: 40px 20px;
-    color: white;
-    text-align: center;
-    position: relative;
+/* DARK/LIGHT LOGO FIX */
+.footer-logo-dark{display:none;}
+:root.dark .footer-logo-light{display:none;}
+:root.dark .footer-logo-dark{display:block;}
+
+@keyframes gentleFloat{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+  100%{transform:translateY(0)}
 }
-
-/* --- FOOTER LOGO SIZE --- */
-/* 3–4 inches ≈ 300px on most displays */
-.footer-logo {
-    width: 300px;
-    height: auto;     /* keep aspect ratio */
-    margin-top: 15px;
-    animation: gentleFloat 4s ease-in-out infinite;
-}
-
-/* --- DARK/LIGHT MODE LOGOS --- */
-.footer-logo-dark { display: none; }
-.dark-mode .footer-logo-light { display: none; }
-.dark-mode .footer-logo-dark { display: block; }
-
-/* --- ANIMATION --- */
-@keyframes gentleFloat {
-    0%   { transform: translateY(0); }
-    50%  { transform: translateY(-6px); }
-    100% { transform: translateY(0); }
-}
-
