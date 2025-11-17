@@ -144,22 +144,6 @@ a{color:var(--nepal-blue)}
 }
 
 /********************************
-   NEPALI CALENDAR (bottom-right)
-*********************************/
-#bsCalendar{
-  right:20px !important;
-  bottom:160px !important;
-  width:260px !important;
-  height:320px !important;
-  padding:0 !important;
-}
-#bsCalendar iframe{
-  width:100% !important;
-  height:100% !important;
-  border-radius:10px !important;
-}
-
-/********************************
    NEPALI CLOCK (bottom-right)
 *********************************/
 #nepaliClockWidget{
@@ -229,10 +213,17 @@ a{color:var(--nepal-blue)}
   animation: gentleFloat 4s ease-in-out infinite;
 }
 
-/* DARK/LIGHT LOGO FIX */
-.footer-logo-dark{display:none;}
-:root.dark .footer-logo-light{display:none;}
-:root.dark .footer-logo-dark{display:block;}
+/* --- DARK/LIGHT MODE FOOTER LOGO SWITCHING --- */
+.footer-logo-light { display: block; }
+.footer-logo-dark { display: none; }
+
+/* When dark mode is active */
+:root.dark .footer-logo-light {
+    display: none !important;
+}
+:root.dark .footer-logo-dark {
+    display: block !important;
+}
 
 @keyframes gentleFloat{
   0%{transform:translateY(0)}
@@ -327,3 +318,4 @@ a{color:var(--nepal-blue)}
   #nepaliClockWidget{ right:12px !important; bottom:20px !important; width:240px !important; height:110px !important; }
   #visitorWidget{ left:12px !important; bottom:20px !important; min-width:160px !important; }
 }
+
