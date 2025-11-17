@@ -197,54 +197,6 @@ function writeTopAndTotal(topArray, totalFromAPI=null){
 /* run visitor logic */
 registerVisitAndRender();
 
-/* ---------- B.S. calendar: wait for library then render ---------- */
-function waitForNepaliLibAndRender(retries=20, delay=200){
-  if (typeof NepaliDateConverter !== 'undefined' && typeof NepaliDateConverter.adToBs === 'function') {
-    try {
-      const today = new Date();
-      const bs = NepaliDateConverter.adToBs(today.getFullYear(), today.getMonth()+1, today.getDate());
-      const monthNames = ["Baishakh","Jestha","Ashadh","Shrawan","Bhadra","Ashwin","Kartik","Mangsir","Poush","Magh","Falgun","Chaitra"];
-      const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-      const dateEl = document.getElementById('bsDate');
-      const weekEl = document.getElementById('bsWeekday');
-      if(dateEl) dateEl.textContent = `${bs.year} ${monthNames[bs.month - 1]} ${bs.day}`;
-      if(weekEl) weekEl.textContent = weekdays[today.getDay()];
-      console.info('B.S. calendar rendered from NepaliDateConverter:', bs);
-    } catch(e){
-      console.error('Error while rendering BS from library:', e);
-      // fallback later
-      if(retries>0) setTimeout(()=>waitForNepaliLibAndRender(retries-1, delay), delay);
-      else fallbackApproxBS();
-    }
-  } else {
-    if(retries>0) setTimeout(()=>waitForNepaliLibAndRender(retries-1, delay), delay);
-    else {
-      console.warn('NepaliDateConverter not found after retries, using fallback approx');
-      fallbackApproxBS();
-    }
-  }
-}
-
-function fallbackApproxBS(){
-  // approximate fallback only used when library is missing
-  const now = new Date();
-  const adYear = now.getFullYear(), m = now.getMonth()+1, d = now.getDate();
-  const bsYear = (m > 4 || (m === 4 && d >= 14)) ? adYear + 57 : adYear + 56;
-  const monthsApprox = ['Baishakh','Jestha','Ashadh','Shrawan','Bhadra','Ashwin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
-  const approx = new Date(now.getTime() + 17*24*60*60*1000);
-  const idx = (approx.getMonth() + 9) % 12;
-  const bsStr = `${bsYear} ${monthsApprox[idx]} ${approx.getDate()} (approx)`;
-  const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-  const weekday = weekdays[now.getDay()];
-  const dateEl = document.getElementById('bsDate');
-  const weekEl = document.getElementById('bsWeekday');
-  if(dateEl) dateEl.textContent = bsStr;
-  if(weekEl) weekEl.textContent = weekday;
-}
-
-/* start waiting for the library and render */
-waitForNepaliLibAndRender();
-
 /* ---------- Chat snippet helper (unchanged) ---------- */
 function installChatSnippet(snippet){
   try {
@@ -262,3 +214,4 @@ function installChatSnippet(snippet){
 
 /* ---------- Footer year ---------- */
 document.querySelectorAll('#footerYear').forEach(e=>e.textContent = (new Date()).getFullYear());
+
