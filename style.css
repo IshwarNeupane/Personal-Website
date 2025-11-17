@@ -319,4 +319,24 @@ a{color:var(--nepal-blue)}
   #visitorWidget{ left:12px !important; bottom:20px !important; min-width:160px !important; }
 }
 
+/* ============================================================
+   FINAL OVERRIDE: ENSURE ONLY ONE FOOTER LOGO IS VISIBLE
+   ============================================================ */
+
+/* Default (LIGHT MODE) */
+.footer-logo-light {
+    display: block !important;
+}
+.footer-logo-dark {
+    display: none !important;
+}
+
+/* DARK MODE ACTIVE */
+:root.dark .footer-logo-light {
+    display: none !important;
+}
+:root.dark .footer-logo-dark {
+    display: block !important;
+}
+
 
