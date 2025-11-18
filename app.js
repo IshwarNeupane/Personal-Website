@@ -1,217 +1,179 @@
-/* app.js - unified & robust version (replace entire file) */
+/* ==========================================================
+   CONFIG
+========================================================== */
+const OPENWEATHER_API_KEY = "57d0913961b8dd3587935fb4252d809c";
+const COUNTAPI_NAMESPACE = "ishwar_neupane_homepage_ns";
+const COUNTAPI_KEY = "total_visits";
 
-/* ---------- CONFIG ---------- */
-const OPENWEATHER_API_KEY = '57d0913961b8dd3587935fb4252d809c';
-const COUNTAPI_NAMESPACE = 'ishwar_neupane_homepage_ns';
-const COUNTAPI_KEY = 'total_visits';
-const VISITOR_SERVER_BASE = null; // set to server URL if you deploy a backend
+/* ==========================================================
+   THEME TOGGLE (Dark/Light)
+========================================================== */
+(function () {
+  const saved = localStorage.getItem("theme_pref");
+  if (saved === "dark") document.documentElement.classList.add("dark");
 
-/* ---------- THEME (dark toggle) ---------- */
-(function(){
-  const saved = localStorage.getItem('theme_pref');
-  if(saved === 'dark') document.documentElement.classList.add('dark');
-  document.querySelectorAll('#themeToggle').forEach(btn=>{
-    if(!btn) return;
-    btn.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
-    btn.addEventListener('click', ()=>{
-      document.documentElement.classList.toggle('dark');
-      const isDark = document.documentElement.classList.contains('dark');
-      localStorage.setItem('theme_pref', isDark ? 'dark' : 'light');
-      btn.textContent = isDark ? '☀️' : '🌙';
+  document.querySelectorAll("#themeToggle").forEach((btn) => {
+    const updateIcon = () =>
+      (btn.textContent = document.documentElement.classList.contains("dark")
+        ? "☀️"
+        : "🌙");
+
+    updateIcon();
+
+    btn.addEventListener("click", () => {
+      document.documentElement.classList.toggle("dark");
+      localStorage.setItem(
+        "theme_pref",
+        document.documentElement.classList.contains("dark") ? "dark" : "light"
+      );
+      updateIcon();
     });
   });
 })();
+  
+/* ==========================================================
+   WEATHER WIDGET
+========================================================== */
+async function initWeather() {
+  const el = document.getElementById("weatherWidget");
+  if (!el) return;
 
-/* ---------- WEATHER (OpenWeatherMap) ---------- */
-async function initWeather(){
-  const widget = document.getElementById('weatherWidget');
-  if(!widget) { console.warn('weatherWidget element not found'); return; }
-
-  widget.innerHTML = `
+  el.innerHTML = `
     <div class="weather-icon" id="weatherIcon">--</div>
-    <div class="weather-body">
+    <div>
       <div id="weatherTemp">--°C</div>
-      <div id="weatherDesc" class="muted">Loading...</div>
+      <div id="weatherDesc" class="muted small">Loading...</div>
       <div id="weatherLoc" class="muted small"></div>
-    </div>`;
+    </div>
+  `;
 
-  if(!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY.indexOf(' ')>=0){
-    const desc = document.getElementById('weatherDesc');
-    if(desc) desc.textContent = 'API key missing — set in app.js';
+  const applyWeather = (j) => {
+    document.getElementById("weatherTemp").textContent =
+      Math.round(j.main.temp) + "°C";
+    document.getElementById("weatherDesc").textContent = j.weather[0].main;
+    document.getElementById("weatherLoc").textContent =
+      j.name + ", " + j.sys.country;
+    document.getElementById(
+      "weatherIcon"
+    ).innerHTML = `<img src="https://openweathermap.org/img/wn/${j.weather[0].icon}@2x.png" width="48" height="48">`;
+  };
+
+  // One clean location fetch: geolocation → IP fallback
+  let lat = null,
+    lon = null;
+
+  try {
+    await new Promise((resolve) =>
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          lat = pos.coords.latitude;
+          lon = pos.coords.longitude;
+          resolve();
+        },
+        resolve,
+        { timeout: 5000 }
+      )
+    );
+  } catch (e) {}
+
+  if (!lat || !lon) {
+    try {
+      const r = await fetch("https://ipapi.co/json/");
+      const j = await r.json();
+      lat = j.latitude;
+      lon = j.longitude;
+    } catch (e) {}
+  }
+
+  if (!lat || !lon) {
+    document.getElementById("weatherDesc").textContent = "Unavailable";
     return;
   }
 
-  function apply(j){
-    if(!j || !j.main) return;
-    document.getElementById('weatherTemp').textContent = Math.round(j.main.temp) + '°C';
-    document.getElementById('weatherDesc').textContent = j.weather && j.weather[0] && j.weather[0].main || '';
-    document.getElementById('weatherLoc').textContent = (j.name || '') + (j.sys && j.sys.country ? ', ' + j.sys.country : '');
-    const icon = (j.weather && j.weather[0] && j.weather[0].icon) ? j.weather[0].icon : null;
-    const iconEl = document.getElementById('weatherIcon');
-    if(icon) iconEl.innerHTML = `<img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="" width="48" height="48">`;
-  }
-
   try {
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(async pos=>{
-        try{
-          const lat = pos.coords.latitude, lon = pos.coords.longitude;
-          const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${OPENWEATHER_API_KEY}`);
-          const j = await res.json();
-          apply(j);
-        }catch(e){ console.warn('weather geolocation fetch fail', e); }
-      }, async ()=>{
-        try{
-          const r = await fetch('https://ipapi.co/json/');
-          const info = await r.json();
-          if(info && info.latitude && info.longitude){
-            const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${info.latitude}&lon=${info.longitude}&units=metric&appid=${OPENWEATHER_API_KEY}`);
-            const j = await res.json();
-            apply(j);
-          }
-        }catch(e){ console.warn('weather ip fallback fail', e); }
-      }, {timeout:6000});
-    } else {
-      const r = await fetch('https://ipapi.co/json/');
-      const info = await r.json();
-      if(info && info.latitude && info.longitude){
-        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${info.latitude}&lon=${info.longitude}&units=metric&appid=${OPENWEATHER_API_KEY}`);
-        const j = await res.json();
-        apply(j);
-      }
-    }
-  } catch(e){
-    console.warn('weather error', e);
-    const desc = document.getElementById('weatherDesc');
-    if(desc) desc.textContent = 'Unable to load';
+    const r = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${OPENWEATHER_API_KEY}`
+    );
+    applyWeather(await r.json());
+  } catch (e) {
+    document.getElementById("weatherDesc").textContent = "Error";
   }
 }
+
 initWeather();
 
-/* ---------- VISITOR COUNTER (countapi) & top countries ---------- */
-async function registerVisitAndRender() {
-  // Try to increment global total via countapi
-  let totalFromAPI = null;
-  try {
-    const r = await fetch(`https://api.countapi.xyz/hit/${COUNTAPI_NAMESPACE}/${COUNTAPI_KEY}`);
-    if(r.ok){
-      const j = await r.json();
-      totalFromAPI = Number(j.value) || null;
-      // write to DOM if element exists
-      const totalEl = document.getElementById('totalVisits') || document.getElementById('totalVisitors');
-      if(totalEl && totalFromAPI !== null) totalEl.textContent = totalFromAPI.toLocaleString();
-    } else {
-      console.warn('countapi returned non-ok', r.status);
-    }
-  } catch(e){
-    console.warn('countapi request failed', e);
-  }
+/* ==========================================================
+   VISITOR COUNTER (CountAPI + top country local tally)
+========================================================== */
+async function updateVisitors() {
+  const totalEl =
+    document.getElementById("totalVisits") ||
+    document.getElementById("totalVisitors");
+  const topEl =
+    document.getElementById("top5") ||
+    document.getElementById("topCountries");
 
-  // get country via ipapi (fallback local aggregation)
-  let country = 'Unknown';
+  // 1) Total visits (global)
+  let total = "--";
   try {
-    const r = await fetch('https://ipapi.co/json/');
+    const r = await fetch(
+      `https://api.countapi.xyz/hit/${COUNTAPI_NAMESPACE}/${COUNTAPI_KEY}`
+    );
     const j = await r.json();
-    country = (j && j.country_name) ? j.country_name : 'Unknown';
-  } catch(e){
-    console.warn('ipapi fetch failed', e);
-  }
+    total = j.value?.toLocaleString() || "--";
+  } catch (e) {}
 
-  // update local per-country tally for demo (persisted)
+  if (totalEl) totalEl.textContent = total;
+
+  // 2) Country-based local ranking
+  let country = "Unknown";
   try {
-    const key = 'visitor_country_counts_v1';
-    const raw = localStorage.getItem(key);
-    const obj = raw ? JSON.parse(raw) : {};
-    obj[country] = (obj[country] || 0) + 1;
-    localStorage.setItem(key, JSON.stringify(obj));
-  } catch(e){ console.warn('local visitor storage failed', e); }
+    const r = await fetch("https://ipapi.co/json/");
+    const j = await r.json();
+    country = j.country_name || "Unknown";
+  } catch (e) {}
 
-  // Render top5 from either server (if available) or local storage
-  await renderTopCountries(totalFromAPI);
+  const storeKey = "visitor_country_counts_v1";
+  const data = JSON.parse(localStorage.getItem(storeKey) || "{}");
+  data[country] = (data[country] || 0) + 1;
+  localStorage.setItem(storeKey, JSON.stringify(data));
+
+  const sorted = Object.entries(data)
+    .map(([c, n]) => ({ country: c, count: n }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5);
+
+  if (topEl)
+    topEl.textContent = sorted
+      .map((x) => `${x.country} (${x.count})`)
+      .join(", ");
 }
 
-async function renderTopCountries(totalFromAPI = null) {
-  // Try server first (optional)
-  if (typeof VISITOR_SERVER_BASE === 'string' && VISITOR_SERVER_BASE) {
-    try {
-      const r = await fetch(VISITOR_SERVER_BASE + '/stats/top');
-      if (r.ok) {
-        const j = await r.json();
-        if (j && j.top) {
-          writeTopAndTotal(j.top, totalFromAPI);
-          return;
-        }
-      }
-    } catch(e){ console.warn('visitor server top fetch failed', e); }
+updateVisitors();
+
+/* ==========================================================
+   CHAT SNIPPET LOADER (optional)
+========================================================== */
+(function () {
+  const saved = localStorage.getItem("chat_snippet");
+  if (saved) {
+    const d = document.createElement("div");
+    d.innerHTML = saved;
+    document.body.appendChild(d);
   }
 
-  // fallback to localStorage
-  try {
-    const key = 'visitor_country_counts_v1';
-    const raw = localStorage.getItem(key);
-    const obj = raw ? JSON.parse(raw) : {};
-    const arr = Object.keys(obj).map(k => ({country:k, count: obj[k]}));
-    arr.sort((a,b)=>b.count - a.count);
-    const top = arr.slice(0,5);
-    writeTopAndTotal(top, totalFromAPI);
-  } catch(e){
-    console.warn('renderTopCountries fallback failed', e);
-    // clear displays to safe defaults
-    const topEl = document.getElementById('top5') || document.getElementById('topCountries');
-    if(topEl) topEl.textContent = '—';
-    const totalEl = document.getElementById('totalVisits') || document.getElementById('totalVisitors');
-    if(totalEl && totalFromAPI === null) totalEl.textContent = '—';
-  }
-}
-
-function writeTopAndTotal(topArray, totalFromAPI=null){
-  // topArray is [{country, count}, ...]
-  const topEl = document.getElementById('top5') || document.getElementById('topCountries');
-  const totalEl = document.getElementById('totalVisits') || document.getElementById('totalVisitors');
-
-  const sumTop = topArray.reduce((s,i)=>s + Number(i.count || 0), 0);
-
-  // If countapi provided a total, use it; otherwise use the sum of top+others from localStorage
-  let finalTotal = totalFromAPI;
-  if(finalTotal === null){
-    // Try derive total from localStorage (sum of all countries)
-    try {
-      const key = 'visitor_country_counts_v1';
-      const obj = JSON.parse(localStorage.getItem(key) || '{}');
-      finalTotal = Object.values(obj).reduce((s,v)=>s + Number(v || 0), 0);
-    } catch(e){ finalTotal = sumTop; }
-  }
-
-  // Ensure finalTotal >= sumTop
-  if(finalTotal === null) finalTotal = sumTop;
-  if(finalTotal < sumTop) finalTotal = sumTop;
-
-  // render
-  if(topEl) {
-    if(topArray.length === 0) topEl.textContent = '—';
-    else topEl.textContent = topArray.map(x=>`${x.country} (${x.count})`).join(', ');
-  }
-  if(totalEl) totalEl.textContent = finalTotal !== null ? finalTotal.toLocaleString() : '--';
-}
-
-/* run visitor logic */
-registerVisitAndRender();
-
-/* ---------- Chat snippet helper (unchanged) ---------- */
-function installChatSnippet(snippet){
-  try {
-    localStorage.setItem('chat_snippet', snippet);
-    const div = document.createElement('div'); div.innerHTML = snippet; document.body.appendChild(div);
-    alert('Chat snippet injected & saved for this browser.');
-  } catch(e){ alert('Failed to save chat snippet: '+e.message) }
-}
-(function(){
-  const snip = localStorage.getItem('chat_snippet');
-  if(snip){
-    const d = document.createElement('div'); d.innerHTML = snip; document.body.appendChild(d);
-  }
+  window.installChatSnippet = function (snippet) {
+    localStorage.setItem("chat_snippet", snippet);
+    const d = document.createElement("div");
+    d.innerHTML = snippet;
+    document.body.appendChild(d);
+    alert("Chat snippet installed.");
+  };
 })();
 
-/* ---------- Footer year ---------- */
-document.querySelectorAll('#footerYear').forEach(e=>e.textContent = (new Date()).getFullYear());
-
+/* ==========================================================
+   FOOTER YEAR AUTO-UPDATE
+========================================================== */
+document
+  .querySelectorAll("#footerYear")
+  .forEach((e) => (e.textContent = new Date().getFullYear()));
