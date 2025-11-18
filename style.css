@@ -199,3 +199,168 @@ a { color:var(--nepal-blue); }
   50%{transform:translateY(-6px)}
   100%{transform:translateY(0)}
 }
+
+/* =========================
+  Soft centered waving Nepali flag (background)
+  - Low opacity, behind content
+  - Animated slow horizontal wave/float
+  ========================= */
+body::before{
+  content: "";
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%) translateZ(0);
+  width: 55vw;
+  max-width: 1100px;
+  height: 55vw;
+  max-height: 700px;
+  pointer-events: none;
+  z-index: -2;
+  opacity: 0.18;              /* adjust to taste (0.1 - 0.30) */
+  filter: saturate(0.9) blur(0.5px);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  will-change: transform, opacity;
+  animation: flagFloat 12s ease-in-out infinite;
+  mix-blend-mode: overlay;    /* subtle blend */
+  /* Embedded simplified Nepali flag SVG as data URL */
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 700'>\
+    <defs>\
+      <linearGradient id='r' x1='0' x2='1'><stop offset='0' stop-color='%23bf0a30'/><stop offset='1' stop-color='%23d22a3b'/></linearGradient>\
+      <linearGradient id='b' x1='0' x2='1'><stop offset='0' stop-color='%23003893'/><stop offset='1' stop-color='%23024db0'/></linearGradient>\
+    </defs>\
+    <g fill='none' stroke='none'>\
+      <!-- lower triangle -->\
+      <polygon points='50,500 300,500 50,100' fill='url(%23r)' opacity='0.95' transform='translate(20,-40) scale(1.03)' />\
+      <!-- upper triangle -->\
+      <polygon points='50,300 300,300 50,20' fill='url(%23r)' opacity='0.95' transform='translate(-14,0) scale(1.03)' />\
+      <!-- blue border outline (thin) -->\
+      <polygon points='45,505 305,505 45,5' fill='none' stroke='%23003893' stroke-width='14' opacity='0.45' />\
+      <!-- moon (upper) -->\
+      <g transform='translate(120,120) scale(0.9)'>\
+        <circle cx='40' cy='40' r='26' fill='%23fff' opacity='0.95'/>\
+        <circle cx='52' cy='30' r='10' fill='%23bf0a30'/>\
+      </g>\
+      <!-- sun (lower) stylized -->\
+      <g transform='translate(140,420) scale(0.95)'>\
+        <circle cx='32' cy='32' r='18' fill='%23fff' opacity='0.95'/>\
+        <g fill='%23bf0a30' transform='translate(32,32)'>\
+          <path d='M0,-24 L4,-8 L18,-4 L8,4 L12,20 L0,10 L-12,20 L-8,4 L-18,-4 L-4,-8 Z' transform='rotate(0)'/>\
+        </g>\
+      </g>\
+    </g>\
+  </svg>");
+}
+
+/* subtle float motion */
+@keyframes flagFloat {
+  0%{ transform: translate(-50%,-50%) translateY(-6px) rotate(-0.5deg) }
+  50%{ transform: translate(-50%,-50%) translateY(6px) rotate(0.5deg) }
+  100%{ transform: translate(-50%,-50%) translateY(-6px) rotate(-0.5deg) }
+}
+
+/* reduce visibility on small screens (avoid clutter) */
+@media (max-width:700px){
+  body::before{ width: 80vw; height: 80vw; opacity: 0.10; }
+}
+
+/* Slightly reduce when dark mode active to keep contrast */
+:root.dark body::before { opacity: 0.10; filter: brightness(0.8) saturate(0.8); }
+
+/* =========================
+  Header / Nav adjustments
+  - Slightly larger nav and bolder text
+  - Profile picture glow & switching
+  ========================= */
+.site-header{ padding:16px 22px; }
+.main-nav a{ padding:10px 14px; font-size:15px; border-radius:10px; }
+
+/* profile picture bigger + glow ring */
+.logo{ width:60px; height:60px; border-radius:10px; overflow:hidden; }
+.logo img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:8px; transition: box-shadow 0.3s ease, transform 0.25s ease; }
+
+/* header/profile glowing shadow (animated) */
+.logo-glow {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  transition: box-shadow 0.4s ease;
+  border-radius:8px;
+}
+@keyframes headerGlow {
+  0%{ box-shadow: 0 6px 18px rgba(191,10,48,0.12), 0 0 0 rgba(0,56,147,0); transform: translateY(0); }
+  50%{ box-shadow: 0 10px 26px rgba(191,10,48,0.14), 0 0 28px rgba(0,56,147,0.06); transform: translateY(-2px); }
+  100%{ box-shadow: 0 6px 18px rgba(191,10,48,0.12), 0 0 0 rgba(0,56,147,0); transform: translateY(0); }
+}
+.logo-glow.animate { animation: headerGlow 3.5s ease-in-out infinite; }
+
+/* dark/light profile picture switching
+   - put both images in the HTML; show/hide with .dark on <html> (documentElement) */
+.profile-light { display: block; }
+.profile-dark  { display: none; }
+:root.dark .profile-light { display: none; }
+:root.dark .profile-dark  { display: block; }
+
+/* =========================
+  Footer logo color-glow animation
+  ========================= */
+.footer-logo {
+  width: 220px;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  border-radius: 6px;
+  display:block;
+  margin:12px auto 0;
+  animation: footerGlow 3.6s ease-in-out infinite;
+}
+@keyframes footerGlow {
+  0% {
+    box-shadow:
+      0 6px 16px rgba(191,10,48,0.20),
+      0 0 0 rgba(0,56,147,0.00);
+    transform: translateY(0);
+  }
+  50% {
+    box-shadow:
+      0 14px 36px rgba(191,10,48,0.16),
+      0 0 40px rgba(0,56,147,0.08);
+    transform: translateY(-4px);
+  }
+  100% {
+    box-shadow:
+      0 6px 16px rgba(191,10,48,0.20),
+      0 0 0 rgba(0,56,147,0.00);
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+  Mobile navigation: Nepal-flag themed colors
+  - When collapsed (narrow screens) make buttons visually flag-like
+  ========================= */
+@media (max-width:900px){
+  .main-nav { gap:8px; }
+  .main-nav a {
+    display:inline-block;
+    background: linear-gradient(135deg, rgba(191,10,48,0.12), rgba(0,56,147,0.08));
+    padding:10px 12px;
+    border-radius:10px;
+    font-weight:700;
+    color:var(--text);
+  }
+  .main-nav a.active{ background: linear-gradient(135deg, var(--nepal-red), var(--nepal-blue)); color:#fff; }
+}
+
+/* =========================
+  Small polish: nav hover, link contrast
+  ========================= */
+.main-nav a:hover{ transform: translateY(-2px); transition: transform 0.18s ease; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+
+/* Ensure background flag never overlays widgets */
+.widget{ position: fixed; z-index: 120; }
+
+/* Accessibility: preference reduces motion */
+@media (prefers-reduced-motion: reduce){
+  body::before, .logo-glow.animate, .footer-logo { animation: none !important; transition: none !important; }
+}
+
