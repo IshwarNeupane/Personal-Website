@@ -2,21 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Certifications — ISHWAR NEUPANE</title>
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+  <!-- HEADER -->
   <header class="site-header">
     <div class="brand">
-      <div class="logo"><img src="profile.jpg" alt="Ishwar Neupane"></div>
-      <div class="brand-text"><div class="name">ISHWAR NEUPANE</div><div class="sub">Civil Engineer & Project Management Graduate</div></div>
+      <div class="logo">
+        <img src="profile.jpg" alt="Ishwar Neupane">
+      </div>
+      <div class="brand-text">
+        <div class="name">ISHWAR NEUPANE</div>
+        <div class="sub">Civil Engineer & Project Management Graduate</div>
+      </div>
     </div>
 
-    <nav class="main-nav">
+    <nav class="main-nav" aria-label="Main Navigation">
       <a href="index.html">About Me</a>
       <a href="publications.html">Research & Publications</a>
       <a href="certifications.html" class="active">Certifications</a>
@@ -26,34 +37,38 @@
     </nav>
   </header>
 
+  <!-- MAIN CONTENT -->
   <main class="container page">
     <article class="card">
       <h1>Certifications</h1>
-      <p class="lead">Professional certificates, Workshops, trainings and online courses.</p>
+      <p class="lead">Professional certifications, workshops, technical trainings, and online courses.</p>
 
+      <!-- TECHNICAL TRAININGS -->
       <h2>Technical Trainings</h2>
       <ul>
         <li>To be filled</li>
         <li>To be filled</li>
       </ul>
 
+      <!-- ONLINE COURSES -->
       <h2>Online Courses</h2>
       <ul>
-        <li><strong>Project Management: Choosing & Implementing the Right Tools</strong> (June/2025)- Online Course on Udemy</li>
-        <li><strong>Contract Management</strong>(June/2025)- Online Course on Udemy</li>
-        <li><strong>Certificate in Delay Claims & Analysis</strong>(May/2025)- Online Course on Udemy</li>
-        <li><strong>FIDIC Red Book 2017- Comprehensive Course</strong>(May/2025)- Online Course on Udemy</li>
-        <li><strong>Master in Construction Management</strong>(May/2025)- Online Course on Udemy</li>
-        <li><strong>BIM Applications for Roads, Highways & Transportation design</strong>(April/2025)- Online Course on Udemy</li>
-        <li><strong>Microsoft Project for Project Managers & Civil Engineers-MSP</strong>(March/2025)- Online Course on Udemy</li>
-        <li><strong>Master Course in Contract Law & Contract Management</strong>(March/2025)- Online Course on Udemy</li>
-        <li><strong>Basic Quality Management Fundamentals: Essential Principles</strong>(November/2024)- Online Course on Udemy</li>
-        <li><strong>Quality and Continuous Improvement in Project Management</strong>(November/2024)- Online Course on Udemy</li>
-        <li><strong>Contract Management in Construction Projects</strong>(June/2024)- Online Course on Udemy</li>
+        <li><strong>Project Management: Choosing & Implementing the Right Tools</strong> — June 2025 (Udemy)</li>
+        <li><strong>Contract Management</strong> — June 2025 (Udemy)</li>
+        <li><strong>Delay Claims & Analysis</strong> — May 2025 (Udemy)</li>
+        <li><strong>FIDIC Red Book 2017 — Comprehensive Course</strong> — May 2025 (Udemy)</li>
+        <li><strong>Master in Construction Management</strong> — May 2025 (Udemy)</li>
+        <li><strong>BIM Applications for Roads, Highways & Transportation Design</strong> — April 2025 (Udemy)</li>
+        <li><strong>Microsoft Project for Project Managers & Civil Engineers (MSP)</strong> — March 2025 (Udemy)</li>
+        <li><strong>Master Course in Contract Law & Contract Management</strong> — March 2025 (Udemy)</li>
+        <li><strong>Basic Quality Management: Essential Principles</strong> — November 2024 (Udemy)</li>
+        <li><strong>Quality and Continuous Improvement in Project Management</strong> — November 2024 (Udemy)</li>
+        <li><strong>Contract Management in Construction Projects</strong> — June 2024 (Udemy)</li>
         <li><strong>Coming soon...</strong></li>
       </ul>
 
-      <h2>Webinars/Workshops</h2>
+      <!-- WORKSHOPS -->
+      <h2>Webinars / Workshops</h2>
       <ul>
         <li>To be filled</li>
         <li>Coming soon...</li>
@@ -61,45 +76,33 @@
     </article>
   </main>
 
-   <!-- Widgets: Weather (top-right), Chat (above BS), BS calendar (bottom-right), Visitor (left bottom) -->
-<div id="weatherWidget" class="widget weather" aria-live="polite"></div>
+  <!-- WIDGETS -->
+  <div id="weatherWidget" class="widget weather" aria-live="polite"></div>
 
-<div id="chatPlaceholder" class="widget chat-placeholder" aria-hidden="false">
-  <button id="chatBtn" class="btn btn-primary">Chat</button>
-</div>
+  <div id="chatPlaceholder" class="widget chat-placeholder">
+    <button id="chatBtn" class="btn btn-primary">Chat</button>
+  </div>
 
-<!-- NEPALI CLOCK (bottom right corner) -->
-<div id="nepaliClockWidget" class="widget nepali-clock-widget" aria-live="polite">
-  <iframe 
-    src="https://nepalicalendar.rat32.com/clockwidget/nepali-clock-widget-horizontal-red.php"
-    frameborder="0"
-    scrolling="no"
-    marginwidth="0"
-    marginheight="0"
-    allowtransparency="true">
-  </iframe>
-</div>
+  <div id="nepaliClockWidget" class="widget nepali-clock-widget" aria-live="polite">
+    <iframe 
+      src="https://nepalicalendar.rat32.com/clockwidget/nepali-clock-widget-horizontal-red.php"
+      frameborder="0"
+      scrolling="no"
+      allowtransparency="true">
+    </iframe>
+  </div>
 
-<!-- VISITOR COUNTER (bottom-left) -->
-<div id="visitorWidget" class="widget visitor-widget" aria-live="polite">
-  <div>Total visitors: <span id="totalVisits">--</span></div>
-  <div>Top countries: <span id="top5">--</span></div>
-</div>
+  <div id="visitorWidget" class="widget visitor-widget" aria-live="polite">
+    <div>Total visitors: <span id="totalVisits">--</span></div>
+    <div>Top countries: <span id="top5">--</span></div>
+  </div>
 
-<!-- FOOTER (MUST BE OUTSIDE ALL WIDGETS) -->
-<footer class="footer nepal-footer">
+  <!-- FOOTER -->
+  <footer class="footer nepal-footer">
     <p>Copyrights © 2025 – Ishwar Neupane</p>
+    <img src="faviicon1.png" alt="IN Logo" class="footer-logo">
+  </footer>
 
-    <!-- Light mode image -->
-    <img src="faviicon1.png" 
-         alt="IN Logo" 
-         class="footer-logo">
-
-</footer>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
-
-
-
