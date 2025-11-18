@@ -31,12 +31,6 @@ const COUNTAPI_KEY = "total_visits";
   });
 })();
 
-// preload dark profile image to avoid flicker when toggling
-(function preloadProfileDark(){
-  const img = new Image();
-  img.src = 'profile-dark.jpg';
-})();
-
 /* ==========================================================
    WEATHER WIDGET
 ========================================================== */
@@ -183,4 +177,5 @@ updateVisitors();
 document
   .querySelectorAll("#footerYear")
   .forEach((e) => (e.textContent = new Date().getFullYear()));
+
 
