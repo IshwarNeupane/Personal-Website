@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ISHWAR NEUPANE — About Me</title>
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+  <!-- HEADER -->
   <header class="site-header">
     <div class="brand">
       <div class="logo">
-        <!-- Put your image file named exactly `profile.jpg` in the repo root -->
         <img src="profile.jpg" alt="Ishwar Neupane">
       </div>
       <div class="brand-text">
@@ -32,10 +36,17 @@
     </nav>
   </header>
 
+  <!-- MAIN CONTENT -->
   <main class="container page">
     <article class="card">
       <h1>About Me</h1>
-      <p class="lead">A hardworking, resilient civil engineer with 13+ years of experience in bridge and infrastructure construction across Nepal. Expertise in QA/QC, site supervision, and contract administration for large road and bridge projects.An ordinary person in this world who always seek to do creative things independently or in collaboration.</p>
+
+      <p class="lead">
+        A hardworking, resilient civil engineer with 13+ years of experience in bridge and infrastructure 
+        construction across Nepal. Expertise in QA/QC, site supervision, and contract administration for 
+        large road and bridge projects. An ordinary person in this world who always seeks to do creative 
+        things independently or in collaboration.
+      </p>
 
       <div class="two-col">
         <div>
@@ -73,47 +84,34 @@
     </article>
   </main>
 
-  <!-- Widgets: Weather (top-right), Chat (above BS), BS calendar (bottom-right), Visitor (left bottom) -->
-<div id="weatherWidget" class="widget weather" aria-live="polite"></div>
+  <!-- WIDGETS -->
+  <div id="weatherWidget" class="widget weather" aria-live="polite"></div>
 
-<div id="chatPlaceholder" class="widget chat-placeholder" aria-hidden="false">
-  <button id="chatBtn" class="btn btn-primary">Chat</button>
-</div>
+  <div id="chatPlaceholder" class="widget chat-placeholder">
+    <button id="chatBtn" class="btn btn-primary">Chat</button>
+  </div>
 
-<!-- NEPALI CLOCK (bottom right corner) -->
-<div id="nepaliClockWidget" class="widget nepali-clock-widget" aria-live="polite">
-  <iframe 
-    src="https://nepalicalendar.rat32.com/clockwidget/nepali-clock-widget-horizontal-red.php"
-    frameborder="0"
-    scrolling="no"
-    marginwidth="0"
-    marginheight="0"
-    allowtransparency="true">
-  </iframe>
-</div>
+  <!-- Nepali Clock -->
+  <div id="nepaliClockWidget" class="widget nepali-clock-widget" aria-live="polite">
+    <iframe 
+      src="https://nepalicalendar.rat32.com/clockwidget/nepali-clock-widget-horizontal-red.php"
+      frameborder="0" scrolling="no" allowtransparency="true">
+    </iframe>
+  </div>
 
-<!-- VISITOR COUNTER (bottom-left) -->
-<div id="visitorWidget" class="widget visitor-widget" aria-live="polite">
-  <div>Total visitors: <span id="totalVisits">--</span></div>
-  <div>Top countries: <span id="top5">--</span></div>
-</div>
+  <!-- Visitor Counter -->
+  <div id="visitorWidget" class="widget visitor-widget" aria-live="polite">
+    <div>Total visitors: <span id="totalVisits">--</span></div>
+    <div>Top countries: <span id="top5">--</span></div>
+  </div>
 
-<!-- FOOTER (MUST BE OUTSIDE ALL WIDGETS) -->
-<footer class="footer nepal-footer">
+  <!-- FOOTER -->
+  <footer class="footer nepal-footer">
     <p>Copyrights © 2025 – Ishwar Neupane</p>
+    <img src="faviicon1.png" alt="IN Logo" class="footer-logo">
+  </footer>
 
-    <!-- Light mode image -->
-    <img src="faviicon1.png" 
-         alt="IN Logo" 
-         class="footer-logo">
-
-</footer>
-
-<script src="app.js"></script>
+  <!-- App Logic -->
+  <script src="app.js"></script>
 </body>
 </html>
-
-
-
-
-
