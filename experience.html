@@ -2,21 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Professional Experience — ISHWAR NEUPANE</title>
-  
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+  <!-- HEADER -->
   <header class="site-header">
     <div class="brand">
-      <div class="logo"><img src="profile.jpg" alt="Ishwar Neupane"></div>
-      <div class="brand-text"><div class="name">ISHWAR NEUPANE</div><div class="sub">Civil Engineer & Project Management Graduate</div></div>
+      <div class="logo">
+        <img src="profile.jpg" alt="Ishwar Neupane">
+      </div>
+      <div class="brand-text">
+        <div class="name">ISHWAR NEUPANE</div>
+        <div class="sub">Civil Engineer & Project Management Graduate</div>
+      </div>
     </div>
 
-    <nav class="main-nav">
+    <nav class="main-nav" aria-label="Main Navigation">
       <a href="index.html">About Me</a>
       <a href="publications.html">Research & Publications</a>
       <a href="certifications.html">Certifications</a>
@@ -26,73 +37,69 @@
     </nav>
   </header>
 
+  <!-- MAIN CONTENT -->
   <main class="container page">
     <article class="card">
       <h1>Professional Experience</h1>
-      <p class="lead">Reverse-chronological list of roles — placeholders below from your CV.</p>
+      <p class="lead">Reverse-chronological overview of engineering roles across bridge, road, and infrastructure projects.</p>
 
+      <!-- CURRENT ROLE -->
       <section>
         <h2>Quality Control Engineer — SASEC Highway Enhancement Project</h2>
-        <p>Jan 2024 — Present — COVEC-CREGC-TUNDI JV</p>
+        <p><strong>Jan 2024 – Present</strong> — COVEC–CREGC–TUNDI JV</p>
         <ul>
-          <li>Supervise QA/QC, material testing and site activities for bridge works.</li>
+          <li>Supervising QA/QC operations, material testing, and on-site construction activities.</li>
+          <li>Ensuring compliance with project specifications, standards, and quality benchmarks.</li>
+          <li>Coordinating with contractors, consultants, and project managers on quality issues.</li>
         </ul>
       </section>
 
+      <!-- CONTRACT ENGINEER -->
       <section>
         <h2>Contract Engineer — China Communications Construction Company Ltd.</h2>
-        <p>Apr 2022 — Aug 2023</p>
+        <p><strong>Apr 2022 – Aug 2023</strong></p>
         <ul>
-          <li>Contract review, claims, coordination and IPC preparation.</li>
+          <li>Conducted contract review, claims documentation, and variation preparation.</li>
+          <li>Prepared Interim Payment Certificates (IPCs) and coordinated with stakeholders.</li>
+          <li>Supported documentation, reporting, and contract administration tasks.</li>
         </ul>
       </section>
 
+      <!-- EARLIER ROLES -->
       <section>
-        <h2>Earlier Roles (2011 — 2022)</h2>
-        <p>Various engineering roles on bridges, roads and infrastructure projects.</p>
+        <h2>Earlier Roles (2011 – 2022)</h2>
+        <p>Served in multiple engineering positions involving bridge construction, road projects, and general infrastructure works.</p>
       </section>
     </article>
   </main>
 
-   <!-- Widgets: Weather (top-right), Chat (above BS), BS calendar (bottom-right), Visitor (left bottom) -->
-<div id="weatherWidget" class="widget weather" aria-live="polite"></div>
+  <!-- WIDGETS -->
+  <div id="weatherWidget" class="widget weather" aria-live="polite"></div>
 
-<div id="chatPlaceholder" class="widget chat-placeholder" aria-hidden="false">
-  <button id="chatBtn" class="btn btn-primary">Chat</button>
-</div>
+  <div id="chatPlaceholder" class="widget chat-placeholder">
+    <button id="chatBtn" class="btn btn-primary">Chat</button>
+  </div>
 
-<!-- NEPALI CLOCK (bottom right corner) -->
-<div id="nepaliClockWidget" class="widget nepali-clock-widget" aria-live="polite">
-  <iframe 
-    src="https://nepalicalendar.rat32.com/clockwidget/nepali-clock-widget-horizontal-red.php"
-    frameborder="0"
-    scrolling="no"
-    marginwidth="0"
-    marginheight="0"
-    allowtransparency="true">
-  </iframe>
-</div>
+  <div id="nepaliClockWidget" class="widget nepali-clock-widget" aria-live="polite">
+    <iframe
+      src="https://nepalicalendar.rat32.com/clockwidget/nepali-clock-widget-horizontal-red.php"
+      frameborder="0"
+      scrolling="no"
+      allowtransparency="true">
+    </iframe>
+  </div>
 
-<!-- VISITOR COUNTER (bottom-left) -->
-<div id="visitorWidget" class="widget visitor-widget" aria-live="polite">
-  <div>Total visitors: <span id="totalVisits">--</span></div>
-  <div>Top countries: <span id="top5">--</span></div>
-</div>
+  <div id="visitorWidget" class="widget visitor-widget" aria-live="polite">
+    <div>Total visitors: <span id="totalVisits">--</span></div>
+    <div>Top countries: <span id="top5">--</span></div>
+  </div>
 
-<!-- FOOTER (MUST BE OUTSIDE ALL WIDGETS) -->
-<footer class="footer nepal-footer">
+  <!-- FOOTER -->
+  <footer class="footer nepal-footer">
     <p>Copyrights © 2025 – Ishwar Neupane</p>
+    <img src="faviicon1.png" alt="IN Logo" class="footer-logo">
+  </footer>
 
-    <!-- Light mode image -->
-    <img src="faviicon1.png" 
-         alt="IN Logo" 
-         class="footer-logo">
-
-</footer>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
-
-
-
