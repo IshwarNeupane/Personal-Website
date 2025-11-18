@@ -213,17 +213,21 @@ a{color:var(--nepal-blue)}
   animation: gentleFloat 4s ease-in-out infinite;
 }
 
-/* --- DARK/LIGHT MODE FOOTER LOGO SWITCHING --- */
+/*  DARK/LIGHT MODE FOOTER LOGO SWITCHING 
 .footer-logo-light { display: block; }
 .footer-logo-dark { display: none; }
 
-/* When dark mode is active */
+/* When dark mode is active 
 :root.dark .footer-logo-light {
     display: none !important;
 }
+/* --- DARK/LIGHT MODE FOOTER LOGO SWITCHING 
 :root.dark .footer-logo-dark {
-    display: block !important;
-}
+    display: block !important; 
+} 
+*/
+
+
 
 @keyframes gentleFloat{
   0%{transform:translateY(0)}
@@ -337,6 +341,12 @@ a{color:var(--nepal-blue)}
 }
 :root.dark .footer-logo-dark {
     display: block !important;
+}
+.footer-logo {
+    display: block !important;
+    width: 300px;   /* or your preferred size */
+    height: auto !important;
+    margin: 12px auto 0 auto !important;
 }
 
 
