@@ -2,18 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Contact — ISHWAR NEUPANE</title>
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header class="site-header">
-    <div class="brand"><div class="logo"><img src="profile.jpg" alt="Ishwar Neupane"></div><div class="brand-text"><div class="name">ISHWAR NEUPANE</div><div class="sub">Civil Engineer & Project Management Graduate</div></div></div>
 
-    <nav class="main-nav">
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo">
+        <img src="profile.jpg" alt="Ishwar Neupane">
+      </div>
+      <div class="brand-text">
+        <div class="name">ISHWAR NEUPANE</div>
+        <div class="sub">Civil Engineer & Project Management Graduate</div>
+      </div>
+    </div>
+
+    <nav class="main-nav" aria-label="Main Navigation">
       <a href="index.html">About Me</a>
       <a href="publications.html">Research & Publications</a>
       <a href="certifications.html">Certifications</a>
@@ -23,60 +37,59 @@
     </nav>
   </header>
 
+  <!-- MAIN CONTENT -->
   <main class="container page">
     <article class="card">
       <h1>Contact</h1>
-      <p class="lead">Reach out via email or phone. Links open your mail client.</p>
+      <p class="lead">Feel free to reach out via email, phone, or LinkedIn. Email links open your mail client.</p>
 
       <ul class="contact-list">
         <li><strong>Email:</strong> <a href="mailto:ishwar.neupane@gmail.com">ishwar.neupane@gmail.com</a></li>
-        <li><strong>Alternate Email:</strong> <a href="mailto:ishwar.neupane@outlook.com">ishwar.neupane@outlook.com</a></li>
+
+        <li><strong>Alternate Email:</strong> 
+            <a href="mailto:ishwar.neupane@outlook.com">ishwar.neupane@outlook.com</a>
+        </li>
+
         <li><strong>Phone:</strong> +977-9841450227</li>
-        <li><strong>Address:</strong> Inaruwa 04, Sunsari District, Koshi Province, Nepal</li>
-        <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/ishwar-neupane/">My profile link</a></li>
+
+        <li><strong>Address:</strong> Inaruwa-04, Sunsari District, Koshi Province, Nepal</li>
+
+        <li><strong>LinkedIn:</strong> 
+            <a href="https://www.linkedin.com/in/ishwar-neupane/" target="_blank" rel="noopener">
+              linkedin.com/in/ishwar-neupane
+            </a>
+        </li>
       </ul>
     </article>
   </main>
 
-   <!-- Widgets: Weather (top-right), Chat (above BS), BS calendar (bottom-right), Visitor (left bottom) -->
-<div id="weatherWidget" class="widget weather" aria-live="polite"></div>
+  <!-- WIDGETS -->
+  <div id="weatherWidget" class="widget weather" aria-live="polite"></div>
 
-<div id="chatPlaceholder" class="widget chat-placeholder" aria-hidden="false">
-  <button id="chatBtn" class="btn btn-primary">Chat</button>
-</div>
+  <div id="chatPlaceholder" class="widget chat-placeholder">
+    <button id="chatBtn" class="btn btn-primary">Chat</button>
+  </div>
 
-<!-- NEPALI CLOCK (bottom right corner) -->
-<div id="nepaliClockWidget" class="widget nepali-clock-widget" aria-live="polite">
-  <iframe 
-    src="https://nepalicalendar.rat32.com/clockwidget/nepali-clock-widget-horizontal-red.php"
-    frameborder="0"
-    scrolling="no"
-    marginwidth="0"
-    marginheight="0"
-    allowtransparency="true">
-  </iframe>
-</div>
+  <div id="nepaliClockWidget" class="widget nepali-clock-widget" aria-live="polite">
+    <iframe
+      src="https://nepalicalendar.rat32.com/clockwidget/nepali-clock-widget-horizontal-red.php"
+      frameborder="0"
+      scrolling="no"
+      allowtransparency="true">
+    </iframe>
+  </div>
 
-<!-- VISITOR COUNTER (bottom-left) -->
-<div id="visitorWidget" class="widget visitor-widget" aria-live="polite">
-  <div>Total visitors: <span id="totalVisits">--</span></div>
-  <div>Top countries: <span id="top5">--</span></div>
-</div>
+  <div id="visitorWidget" class="widget visitor-widget" aria-live="polite">
+    <div>Total visitors: <span id="totalVisits">--</span></div>
+    <div>Top countries: <span id="top5">--</span></div>
+  </div>
 
-<!-- FOOTER (MUST BE OUTSIDE ALL WIDGETS) -->
-<footer class="footer nepal-footer">
+  <!-- FOOTER -->
+  <footer class="footer nepal-footer">
     <p>Copyrights © 2025 – Ishwar Neupane</p>
+    <img src="faviicon1.png" alt="IN Logo" class="footer-logo">
+  </footer>
 
-    <!-- Light mode image -->
-    <img src="faviicon1.png" 
-         alt="IN Logo" 
-         class="footer-logo">
-
-</footer>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
-
-
-
